@@ -134,14 +134,14 @@
     </script>
 
     <!-- ============================================ -->
-    <!-- IA LOCAL - CON TINYLLAMA 1.1B CHAT          -->
+    <!-- IA LOCAL - CON TINYLLAMA Y AUTENTICACIÓN     -->
     <!-- ============================================ -->
     <script>
         // Configuración - Usando TinyLlama (más ligero y estable)
         const IA_CONFIG = {
             ip: '192.168.100.34',
             puerto: '8005',
-            modelo: 'TinyLlama 1.1B Chat'  // ← Modelo que funciona en tu teléfono
+            modelo: 'TinyLlama 1.1B Chat'
         };
         
         let iaLocalActiva = false;
@@ -214,25 +214,44 @@
             }
         }
         
-        // Preguntar a TinyLlama en el teléfono
+        // Preguntar a TinyLlama en el teléfono (con autenticación para evitar 403)
         async function preguntarAIphone(pregunta) {
             try {
+                // Intento con autenticación básica
                 const response = await fetch(`http://${IA_CONFIG.ip}:${IA_CONFIG.puerto}/ai/text`, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer dummy-token'
+                    },
                     body: JSON.stringify({
-                        prompt: `[INST] Eres un entrenador de fútbol experto. Responde la siguiente pregunta de forma clara, concisa y útil (máximo 3 oraciones):\n\n${pregunta}\n\nRespuesta: [/INST]`,
+                        prompt: `[INST] Eres un entrenador de fútbol experto. Responde de forma clara, concisa y útil (máximo 3 oraciones):\n\n${pregunta}\n\nRespuesta: [/INST]`,
                         model: IA_CONFIG.modelo,
                         maxTokens: 300,
                         temperature: 0.7
                     })
                 });
                 
-                if (!response.ok) {
-                    console.log('❌ HTTP Error:', response.status);
-                    return null;
+                if (response.status === 403) {
+                    console.log('⚠️ Error 403, reintentando sin autenticación...');
+                    // Reintentar sin autenticación
+                    const response2 = await fetch(`http://${IA_CONFIG.ip}:${IA_CONFIG.puerto}/ai/text`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            prompt: `[INST] ${pregunta} [/INST]`,
+                            model: IA_CONFIG.modelo,
+                            maxTokens: 300,
+                            temperature: 0.7
+                        })
+                    });
+                    if (!response2.ok) return null;
+                    const data2 = await response2.json();
+                    console.log('✅ Respuesta TinyLlama (sin auth):', data2);
+                    return data2.text || data2.response || null;
                 }
                 
+                if (!response.ok) return null;
                 const data = await response.json();
                 console.log('✅ Respuesta TinyLlama:', data);
                 return data.text || data.response || null;
