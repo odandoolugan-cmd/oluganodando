@@ -133,8 +133,61 @@
         })({})
     </script>
 
-    <!-- IA LOCAL - Conectar con el teléfono -->
-    <script src="ia.js"></script>
+    <!-- ============================================ -->
+    <!-- IA LOCAL - CONFIGURACIÓN (INTEGRADA)        -->
+    <!-- ============================================ -->
+    <script>
+        // Configuración de la IA local en tu teléfono
+        const IA_CONFIG = {
+            ip: '192.168.100.34',   // ← IP de tu teléfono (actualiza si cambia)
+            puerto: '8005',
+            modelo: 'deepseek-r1-distill-qwen-1.5b'
+        };
+        
+        // Función para preguntar a la IA local en tu teléfono
+        async function preguntarIA(pregunta) {
+            try {
+                console.log('📡 Enviando a IA local:', pregunta);
+                
+                const response = await fetch(`http://${IA_CONFIG.ip}:${IA_CONFIG.puerto}/ai/text`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': application/json' },
+                    body: JSON.stringify({
+                        prompt: `Eres un experto entrenador de fútbol. Responde de manera CONCISA, APASIONADA y ÚTIL. Máximo 4 oraciones. Pregunta: ${pregunta}`,
+                        model: IA_CONFIG.modelo,
+                        maxTokens: 500,
+                        temperature: 0.7
+                    })
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+                
+                const data = await response.json();
+                console.log('✅ Respuesta IA local:', data);
+                
+                return data.text || data.response || null;
+            } catch (error) {
+                console.error('❌ Error en IA local:', error);
+                return null;
+            }
+        }
+        
+        // Función para verificar si la IA local está disponible
+        async function verificarIA() {
+            try {
+                const response = await fetch(`http://${IA_CONFIG.ip}:${IA_CONFIG.puerto}/status`);
+                const data = await response.json();
+                const disponible = (data.status === 'running' && data.ai?.isEnabled === true);
+                console.log('🔌 IA Local disponible:', disponible);
+                return disponible;
+            } catch (error) {
+                console.log('🔌 IA Local no disponible:', error);
+                return false;
+            }
+        }
+    </script>
     
     <script>
         // ============================================
@@ -148,24 +201,7 @@
         // Variable para saber si la IA local está disponible
         let iaLocalDisponible = false;
         
-        // Verificar si la IA local está activa
-        async function verificarIA() {
-            try {
-                const response = await fetch(`http://${IA_CONFIG.ip}:${IA_CONFIG.puerto}/status`);
-                const data = await response.json();
-                iaLocalDisponible = (data.status === 'running' && data.ai?.isEnabled === true);
-                if (iaLocalDisponible) {
-                    addMessage("🧠✨ ¡IA Local conectada! Mis respuestas ahora son más inteligentes y personalizadas.", false);
-                }
-                return iaLocalDisponible;
-            } catch (error) {
-                iaLocalDisponible = false;
-                addMessage("⚠️ IA Local no disponible. Usando modo básico. Asegúrate que la app AI Phone Server esté abierta en tu teléfono.", false);
-                return false;
-            }
-        }
-        
-        // BASE DE RESPUESTAS FUTBOLERAS (RESPALDO)
+        // BASE DE RESPUESTAS FUTBOLERAS (RESPALDO si no hay IA local)
         const respuestasFutboleras = {
             formaciones: [
                 "📋 El 4-3-3 te da salida y amplitud. Necesitas extremos que desequilibren y un 9 de área.",
@@ -251,26 +287,6 @@
             const respuestas = respuestasFutboleras[categoria];
             return respuestas[Math.floor(Math.random() * respuestas.length)];
         }
-        
-        // Función para preguntar a la IA local
-        async function preguntarIA(pregunta) {
-            try {
-                const response = await fetch(`http://${IA_CONFIG.ip}:${IA_CONFIG.puerto}/ai/text`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        prompt: `Eres un experto en fútbol y táctica deportiva. Responde de manera concisa, apasionada y útil sobre: ${pregunta}`,
-                        model: IA_CONFIG.modelo,
-                        maxTokens: 500,
-                        temperature: 0.7
-                    })
-                });
-                const data = await response.json();
-                return data.text || data.response || null;
-            } catch (error) {
-                return null;
-            }
-        }
 
         function addMessage(text, isUser = false) {
             const messageDiv = document.createElement('div');
@@ -309,23 +325,25 @@
             
             let respuesta = null;
             
-            // Intentar usar IA local primero
+            // Intentar usar IA local si está disponible
             if (iaLocalDisponible) {
                 respuesta = await preguntarIA(question);
             }
             
             removeTyping();
             
-            // Si la IA local no respondió, usar respuestas locales
-            if (!respuesta) {
+            // Si la IA local no respondió, usar respaldo local
+            if (!respuesta || respuesta === null) {
                 respuesta = obtenerRespuestaLocal(question);
                 const emojisFutbol = ['⚽', '🥅', '📋', '🎯', '🔥', '💪', '🧠', '👟'];
                 if (Math.random() > 0.6) {
                     respuesta = emojisFutbol[Math.floor(Math.random() * emojisFutbol.length)] + " " + respuesta;
                 }
                 if (!iaLocalDisponible) {
-                    respuesta = "📱 " + respuesta;
+                    respuesta = "📱 [Modo local] " + respuesta;
                 }
+            } else {
+                respuesta = "🧠 " + respuesta;
             }
             
             addMessage(respuesta, false);
@@ -336,8 +354,15 @@
         sendBtn.addEventListener('click', handleSend);
         userInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') handleSend(); });
         
-        // Verificar IA local al cargar
-        verificarIA();
+        // Inicializar: verificar IA local al cargar
+        (async function iniciar() {
+            iaLocalDisponible = await verificarIA();
+            if (iaLocalDisponible) {
+                addMessage("🧠✨ ¡IA Local conectada! Mis respuestas ahora son más inteligentes y personalizadas desde tu teléfono.", false);
+            } else {
+                addMessage("⚠️ IA Local no disponible. Usando modo básico. Asegúrate que la app AI Phone Server esté abierta en tu teléfono y en la misma red WiFi.", false);
+            }
+        })();
         
         setTimeout(() => {
             addMessage("⚽ Recuerda: el fútbol no se inventa, se trabaja. ¿Neurona táctica hoy? Pregúntame.", false);
