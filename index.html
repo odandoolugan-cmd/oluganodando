@@ -2,9 +2,12 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <meta name="referrer" content="no-referrer-when-downgrade" />
-    <title>La Dinastía · Oráculo de Campeones</title>
+    <title>La Dinastía · Oráculo de Campeones + Modo VR</title>
+    
+    <!-- Fuentes Épicas -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     
     <!-- PopAds Script (pop-under) -->
     <script type="text/javascript" data-cfasync="false">
@@ -12,9 +15,6 @@
     (function(){var g=window,c="fd00ec802f889d01aba4b20343501917",p=[["siteId",539*175-218*659+5342413],["minBid",0],["popundersPerIP","0"],["delayBetween",0],["default",false],["defaultPerDay",0],["topmostLayer","auto"]],y=["d3d3LmJsb2NrYWRzbm90LmNvbS9wVkIva2pzeGdyYXBoY29yZS5qcw==","ZG5oZmk1bm4yZHQ2Ny5jbG91ZGZyb250Lm5ldC9Tc3ZEL1Uvc3BvcHBlci5taW4uY3Nz"],q=-1,x,n,k=function(){clearTimeout(n);q++;if(y[q]&&!(1802570505000<(new Date).getTime()&&1<q)){x=g.document.createElement("script");x.type="text/javascript";x.async=!0;var r=g.document.getElementsByTagName("script")[0];x.src="https://"+atob(y[q]);x.crossOrigin="anonymous";x.onerror=k;x.onload=function(){clearTimeout(n);g[c.slice(0,16)+c.slice(0,16)]||k()};n=setTimeout(k,5E3);r.parentNode.insertBefore(x,r)}};if(!g[c]){try{Object.freeze(g[c]=p)}catch(e){}k()}})();
     /*]]>/* */
     </script>
-    
-    <!-- Fuentes Épicas -->
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     
     <!-- Adsterra Script (Popunder) -->
     <script type="text/javascript">
@@ -61,61 +61,115 @@
         .ad-container { text-align: center; margin: 20px 0; padding: 10px; background: rgba(0,0,0,0.3); border-radius: 10px; }
         .ad-label { font-size: 11px; color: #7a9aae; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px; }
         
+        /* Botón VR */
+        .vr-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            border: none;
+            padding: 12px 20px;
+            border-radius: 40px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 100;
+            font-family: 'Cinzel', serif;
+            box-shadow: 0 0 15px rgba(245, 158, 11, 0.5);
+            transition: transform 0.2s;
+        }
+        .vr-button:hover { transform: scale(1.05); }
+        
+        /* Modo VR */
+        .vr-mode {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1000;
+            display: none;
+            background: #0a0f1e;
+        }
+        .vr-mode.active { display: block; }
+        .close-vr {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.7);
+            border: 1px solid #e9c46a;
+            padding: 8px 16px;
+            border-radius: 30px;
+            color: #e9c46a;
+            cursor: pointer;
+            z-index: 1001;
+            font-family: monospace;
+        }
+        
         @media (max-width: 600px) { h1 { font-size: 2rem; } .stage-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
-    <div class="container">
-        
-        <!-- ========== ANUNCIO 1 (ARRIBA) = ADSTERRA BANNER ========== -->
-        <div class="ad-container">
-            <div class="ad-label">⚡ Patrocinador ⚡</div>
-            <div id="adsterra-banner"></div>
-        </div>
-        
-        <h1>🏆 LA DINASTÍA 🏆</h1>
-        <div class="subtitle">El Camino a la Gloria Eterna · Táctica, Pasión y Leyenda</div>
 
-        <!-- ========== 2 SMART LINKS ADSTERRA + ESPACIO POPADS ========== -->
-        <div class="ad-container" style="background: rgba(0,0,0,0.5); border-radius: 12px; padding: 15px; margin: 20px 0;">
-            <div class="ad-label">⚡ PATROCINADORES OFICIALES ⚡</div>
-            <div style="display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-top: 10px;">
-                <a href="https://www.profitablecpmratenetwork.com/cuitcvgz?key=85ca230e218898f76e48c348cafb2311" target="_blank" rel="nofollow" style="background: linear-gradient(90deg, #e9c46a, #f4a261); color: #1a222c; padding: 10px 20px; border-radius: 40px; text-decoration: none; font-weight: bold; font-family: 'Cinzel', serif; transition: 0.3s;">🎮 OFERTA 1</a>
-                <a href="https://www.profitablecpmratenetwork.com/b27uffyn?key=5b35819451353807b0e99b21addde69a" target="_blank" rel="nofollow" style="background: linear-gradient(90deg, #2a9d8f, #264653); color: white; padding: 10px 20px; border-radius: 40px; text-decoration: none; font-weight: bold; font-family: 'Cinzel', serif; transition: 0.3s;">🎲 OFERTA 2</a>
-                <div id="popads-space" style="background: rgba(255,255,255,0.1); border: 2px dashed #e9c46a; border-radius: 40px; padding: 10px 20px; min-width: 120px; text-align: center; font-size: 0.7rem; color: #e9c46a; font-family: 'Cinzel', serif;">
-                    ⏳ PRÓXIMAMENTE<br>Nuevas Ofertas
+    <!-- MODO NORMAL -->
+    <div class="normal-mode" id="normalMode">
+        <div class="container">
+            <div class="ad-container">
+                <div class="ad-label">⚡ Patrocinador ⚡</div>
+                <div id="adsterra-banner"></div>
+            </div>
+            
+            <h1>🏆 LA DINASTÍA 🏆</h1>
+            <div class="subtitle">El Camino a la Gloria Eterna · Táctica, Pasión y Leyenda</div>
+
+            <div class="ad-container" style="background: rgba(0,0,0,0.5); border-radius: 12px; padding: 15px; margin: 20px 0;">
+                <div class="ad-label">⚡ PATROCINADORES OFICIALES ⚡</div>
+                <div style="display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-top: 10px;">
+                    <a href="https://www.profitablecpmratenetwork.com/cuitcvgz?key=85ca230e218898f76e48c348cafb2311" target="_blank" rel="nofollow" style="background: linear-gradient(90deg, #e9c46a, #f4a261); color: #1a222c; padding: 10px 20px; border-radius: 40px; text-decoration: none; font-weight: bold; font-family: 'Cinzel', serif; transition: 0.3s;">🎮 OFERTA 1</a>
+                    <a href="https://www.profitablecpmratenetwork.com/b27uffyn?key=5b35819451353807b0e99b21addde69a" target="_blank" rel="nofollow" style="background: linear-gradient(90deg, #2a9d8f, #264653); color: white; padding: 10px 20px; border-radius: 40px; text-decoration: none; font-weight: bold; font-family: 'Cinzel', serif; transition: 0.3s;">🎲 OFERTA 2</a>
+                    <div id="popads-space" style="background: rgba(255,255,255,0.1); border: 2px dashed #e9c46a; border-radius: 40px; padding: 10px 20px; min-width: 120px; text-align: center; font-size: 0.7rem; color: #e9c46a; font-family: 'Cinzel', serif;">
+                        ⏳ PRÓXIMAMENTE<br>Nuevas Ofertas
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="stage-grid">
-            <div class="stage-card"><h2>1. La Fundación</h2><p>Construir desde la defensa. El primer trofeo llega con orden.</p></div>
-            <div class="stage-card"><h2>2. La Consolidación</h2><p>Dominar el mediocampo. Ser dueños del partido.</p></div>
-            <div class="stage-card"><h2>3. La Dinastía</h2><p>Mística de club. Los jugadores sienten la camiseta.</p></div>
-            <div class="stage-card"><h2>4. La Leyenda</h2><p>Ganar copas con autoridad. Sello histórico.</p></div>
-        </div>
+            <div class="stage-grid">
+                <div class="stage-card"><h2>1. La Fundación</h2><p>Construir desde la defensa. El primer trofeo llega con orden.</p></div>
+                <div class="stage-card"><h2>2. La Consolidación</h2><p>Dominar el mediocampo. Ser dueños del partido.</p></div>
+                <div class="stage-card"><h2>3. La Dinastía</h2><p>Mística de club. Los jugadores sienten la camiseta.</p></div>
+                <div class="stage-card"><h2>4. La Leyenda</h2><p>Ganar copas con autoridad. Sello histórico.</p></div>
+            </div>
 
-        <div class="oracle-section">
-            <div class="oracle-header"><h3>🧠 Oráculo Táctico</h3><span class="ai-badge">DT Virtual · Sabiduría de Campeón</span></div>
-            <p style="margin-bottom:15px; color:#b0c4de; font-size:0.9rem;"><i>⚽ Pregúntale al estratega. Respuestas con ADN futbolero. ⚽</i></p>
-            <div id="chat-area">
-                <div class="message ia-msg">
-                    <div class="msg-bubble">🏛️ ¡Bienvenido, técnico! Soy tu oráculo futbolero. Pregúntame de táctica, presión alta, doble pivote, delantero centro o cómo ganar copas. ¡Dale, nomás!</div>
+            <div class="oracle-section">
+                <div class="oracle-header"><h3>🧠 Oráculo Táctico</h3><span class="ai-badge">DT Virtual · Sabiduría de Campeón</span></div>
+                <p style="margin-bottom:15px; color:#b0c4de; font-size:0.9rem;"><i>⚽ Pregúntale al estratega. Respuestas con ADN futbolero. ⚽</i></p>
+                <div id="chat-area">
+                    <div class="message ia-msg">
+                        <div class="msg-bubble">🏛️ ¡Bienvenido, técnico! Soy tu oráculo futbolero. Pregúntame de táctica, presión alta, doble pivote, delantero centro o cómo ganar copas. ¡Dale, nomás!</div>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <input type="text" id="userInput" placeholder="Ej: '¿Qué hago si me presionan alto?' o '¿4-3-3 o 4-4-2?'">
+                    <button id="sendBtn">CONSULTAR</button>
                 </div>
             </div>
-            <div class="input-group">
-                <input type="text" id="userInput" placeholder="Ej: '¿Qué hago si me presionan alto?' o '¿4-3-3 o 4-4-2?'">
-                <button id="sendBtn">CONSULTAR</button>
+            
+            <div class="ad-container">
+                <div class="ad-label">⚡ Patrocinador ⚡</div>
+                <div id="hilltopads-banner"></div>
             </div>
+            
+            <footer>⚡ El verdadero legado se forja en las finales. La gloria espera a los valientes. ⚡</footer>
         </div>
-        
-        <!-- ========== ANUNCIO 2 (ABAJO) = HILLTOPADS ========== -->
-        <div class="ad-container">
-            <div class="ad-label">⚡ Patrocinador ⚡</div>
-            <div id="hilltopads-banner"></div>
-        </div>
-        
-        <footer>⚡ El verdadero legado se forja en las finales. La gloria espera a los valientes. ⚡</footer>
+    </div>
+
+    <!-- Botón para activar MODO VR -->
+    <button class="vr-button" id="vrModeBtn">🔮 ACTIVAR MODO VR</button>
+
+    <!-- MODO VR -->
+    <div class="vr-mode" id="vrMode">
+        <button class="close-vr" id="closeVrBtn">✕ SALIR DE VR</button>
+        <div id="vrContainer" style="width:100%;height:100%"></div>
     </div>
 
     <!-- HillTopAds Script -->
@@ -132,23 +186,14 @@
         })({})
     </script>
 
-    <!-- ============================================ -->
-    <!-- IA LOCAL - CON TINYLLAMA CORREGIDO          -->
-    <!-- ============================================ -->
+    <!-- IA LOCAL -->
     <script>
-        // CONFIGURACIÓN CORRECTA (con el nombre exacto del modelo)
-        const IA_CONFIG = {
-            ip: '192.168.100.34',
-            puerto: '8005',
-            modelName: 'TINYLLAMA_1_1B_CHAT'
-        };
-        
+        const IA_CONFIG = { ip: '192.168.100.34', puerto: '8005', modelName: 'TINYLLAMA_1_1B_CHAT' };
         let iaLocalActiva = false;
         const chatArea = document.getElementById('chat-area');
         const userInput = document.getElementById('userInput');
         const sendBtn = document.getElementById('sendBtn');
         
-        // Respuestas de respaldo (solo si la IA local falla)
         const respuestasBackup = [
             "🔥 Si te presionan alto, juega en largo al 9 o busca a los laterales en velocidad.",
             "📋 El 4-3-3 te da salida y amplitud. Necesitas extremos que desequilibren.",
@@ -162,9 +207,7 @@
             "🎙️ Rueda de prensa: no regales titulares. Protege a tu plantel."
         ];
         
-        function getRespuestaBackup() {
-            return respuestasBackup[Math.floor(Math.random() * respuestasBackup.length)];
-        }
+        function getRespuestaBackup() { return respuestasBackup[Math.floor(Math.random() * respuestasBackup.length)]; }
         
         function addMessage(text, isUser) {
             const messageDiv = document.createElement('div');
@@ -186,19 +229,13 @@
             chatArea.scrollTop = chatArea.scrollHeight;
         }
         
-        function removeTyping() {
-            const typing = document.getElementById('typing-indicator');
-            if (typing) typing.remove();
-        }
+        function removeTyping() { const typing = document.getElementById('typing-indicator'); if (typing) typing.remove(); }
         
-        // Verificar conexión con el teléfono
         async function verificarIA() {
             try {
-                console.log('🔌 Conectando a:', `http://${IA_CONFIG.ip}:${IA_CONFIG.puerto}/status`);
                 const response = await fetch(`http://${IA_CONFIG.ip}:${IA_CONFIG.puerto}/status`);
                 const data = await response.json();
                 iaLocalActiva = (data.status === 'running' && data.ai?.isEnabled === true);
-                console.log('🔌 IA Local activa:', iaLocalActiva);
                 if (iaLocalActiva) {
                     addMessage("🧠✨ ¡IA Local conectada! Usando TinyLlama en mi teléfono. Pregúntame de fútbol.", false);
                 } else {
@@ -207,66 +244,36 @@
                 return iaLocalActiva;
             } catch (error) {
                 iaLocalActiva = false;
-                console.log('🔌 Error de conexión:', error);
                 addMessage("⚠️ No se pudo conectar a la IA del teléfono. Verifica que la app esté abierta.", false);
                 return false;
             }
         }
         
-        // Preguntar a TinyLlama con el formato CORRECTO
         async function preguntarAIphone(pregunta) {
             try {
                 const prompt = `Eres un entrenador de fútbol experto. Responde de forma clara y concisa (máximo 3 oraciones) en español. Pregunta: ${pregunta}`;
-                
                 const response = await fetch(`http://${IA_CONFIG.ip}:${IA_CONFIG.puerto}/ai/text`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        prompt: prompt,
-                        modelName: IA_CONFIG.modelName,
-                        maxTokens: 150,
-                        temperature: 0.7
-                    })
+                    body: JSON.stringify({ prompt: prompt, modelName: IA_CONFIG.modelName, maxTokens: 150, temperature: 0.7 })
                 });
-                
-                if (!response.ok) {
-                    console.log('❌ HTTP Error:', response.status);
-                    return null;
-                }
-                
+                if (!response.ok) return null;
                 const data = await response.json();
-                console.log('✅ Respuesta TinyLlama:', data);
                 return data.response || data.text || null;
-            } catch (error) {
-                console.error('❌ Error en IA local:', error);
-                return null;
-            }
+            } catch (error) { return null; }
         }
         
         async function handleSend() {
             const question = userInput.value.trim();
             if (!question) return;
-            
             addMessage(question, true);
             userInput.value = '';
             sendBtn.disabled = true;
             showTyping();
-            
             let respuesta = null;
-            
-            if (iaLocalActiva) {
-                respuesta = await preguntarAIphone(question);
-            }
-            
+            if (iaLocalActiva) respuesta = await preguntarAIphone(question);
             removeTyping();
-            
-            if (!respuesta) {
-                respuesta = getRespuestaBackup();
-                if (!iaLocalActiva) {
-                    respuesta = "📱 " + respuesta;
-                }
-            }
-            
+            if (!respuesta) respuesta = getRespuestaBackup();
             addMessage(respuesta, false);
             sendBtn.disabled = false;
             userInput.focus();
@@ -274,9 +281,174 @@
         
         sendBtn.addEventListener('click', handleSend);
         userInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') handleSend(); });
-        
-        // Iniciar verificación al cargar
         verificarIA();
+    </script>
+
+    <!-- Script para el MODO VR (Three.js + WebXR) -->
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.128.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.128.0/examples/jsm/"
+            }
+        }
+    </script>
+
+    <script type="module">
+        import * as THREE from 'three';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+        import { VRButton } from 'three/addons/webxr/VRButton.js';
+        
+        let vrScene, vrCamera, vrRenderer, vrControls;
+        let vrActive = false;
+        
+        function initVR() {
+            const container = document.getElementById('vrContainer');
+            if (!container) return;
+            container.innerHTML = '';
+            
+            vrScene = new THREE.Scene();
+            vrScene.background = new THREE.Color(0x1a222c);
+            vrScene.fog = new THREE.FogExp2(0x1a222c, 0.008);
+            
+            vrCamera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
+            vrCamera.position.set(5, 3, 8);
+            vrCamera.lookAt(0, 0, 0);
+            
+            vrRenderer = new THREE.WebGLRenderer({ antialias: true });
+            vrRenderer.setSize(container.clientWidth, container.clientHeight);
+            vrRenderer.setPixelRatio(window.devicePixelRatio);
+            vrRenderer.xr.enabled = true;
+            container.appendChild(vrRenderer.domElement);
+            
+            const vrBtn = VRButton.createButton(vrRenderer);
+            vrBtn.style.position = 'absolute';
+            vrBtn.style.bottom = '20px';
+            vrBtn.style.right = '20px';
+            vrBtn.style.zIndex = '1000';
+            container.appendChild(vrBtn);
+            
+            vrControls = new OrbitControls(vrCamera, vrRenderer.domElement);
+            vrControls.enableDamping = true;
+            vrControls.target.set(0, 0, 0);
+            
+            // Luces
+            const ambientLight = new THREE.AmbientLight(0x404060);
+            vrScene.add(ambientLight);
+            const dirLight = new THREE.DirectionalLight(0xffffff, 1);
+            dirLight.position.set(5, 10, 7);
+            vrScene.add(dirLight);
+            const pointLight = new THREE.PointLight(0xe9c46a, 0.5);
+            pointLight.position.set(0, 3, 2);
+            vrScene.add(pointLight);
+            
+            // Suelo (césped)
+            const grassMaterial = new THREE.MeshStandardMaterial({ color: 0x2d6a4f, roughness: 0.8 });
+            const floor = new THREE.Mesh(new THREE.PlaneGeometry(20, 20), grassMaterial);
+            floor.rotation.x = -Math.PI / 2;
+            floor.position.y = -1.5;
+            vrScene.add(floor);
+            
+            // Círculo central
+            const circleMaterial = new THREE.MeshStandardMaterial({ color: 0xe9c46a, emissive: 0xe9c46a, emissiveIntensity: 0.2 });
+            const centerCircle = new THREE.Mesh(new THREE.CylinderGeometry(1, 1, 0.05, 32), circleMaterial);
+            centerCircle.position.set(0, -1.45, 0);
+            vrScene.add(centerCircle);
+            
+            // Balones flotantes
+            const ballMaterial = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.2, metalness: 0.8 });
+            for (let i = 0; i < 24; i++) {
+                const ball = new THREE.Mesh(new THREE.SphereGeometry(0.3, 32, 32), ballMaterial);
+                const angle = (i / 24) * Math.PI * 2;
+                const radius = 4;
+                ball.position.x = Math.cos(angle) * radius;
+                ball.position.z = Math.sin(angle) * radius;
+                ball.position.y = Math.sin(angle * 2) * 0.8;
+                vrScene.add(ball);
+            }
+            
+            // Trofeos flotantes
+            const trophyMaterial = new THREE.MeshStandardMaterial({ color: 0xe9c46a, metalness: 0.9, roughness: 0.2 });
+            for (let i = 0; i < 12; i++) {
+                const trophy = new THREE.Mesh(new THREE.CylinderGeometry(0.2, 0.4, 0.6, 8), trophyMaterial);
+                const angle = (i / 12) * Math.PI * 2;
+                const radius = 5.5;
+                trophy.position.x = Math.cos(angle) * radius;
+                trophy.position.z = Math.sin(angle) * radius;
+                trophy.position.y = Math.cos(angle * 2) * 0.5 + 0.5;
+                vrScene.add(trophy);
+            }
+            
+            // Texto flotante "LA DINASTÍA"
+            const canvas = document.createElement('canvas');
+            canvas.width = 512;
+            canvas.height = 128;
+            const ctx = canvas.getContext('2d');
+            ctx.fillStyle = '#1a222c';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.font = 'Bold 32px "Cinzel"';
+            ctx.fillStyle = '#e9c46a';
+            ctx.textAlign = 'center';
+            ctx.fillText('LA DINASTÍA', canvas.width/2, canvas.height/2);
+            const textTexture = new THREE.CanvasTexture(canvas);
+            const textMaterial = new THREE.MeshStandardMaterial({ map: textTexture, side: THREE.DoubleSide });
+            const textPlane = new THREE.Mesh(new THREE.PlaneGeometry(5, 1.2), textMaterial);
+            textPlane.position.set(0, 2.8, -3.5);
+            vrScene.add(textPlane);
+            
+            // Partículas (confeti)
+            const particleCount = 1500;
+            const particlesGeometry = new THREE.BufferGeometry();
+            const particlesPositions = new Float32Array(particleCount * 3);
+            for (let i = 0; i < particleCount; i++) {
+                particlesPositions[i * 3] = (Math.random() - 0.5) * 30;
+                particlesPositions[i * 3 + 1] = (Math.random() - 0.5) * 15;
+                particlesPositions[i * 3 + 2] = (Math.random() - 0.5) * 20 - 10;
+            }
+            particlesGeometry.setAttribute('position', new THREE.BufferAttribute(particlesPositions, 3));
+            const particlesMaterial = new THREE.PointsMaterial({ color: 0xe9c46a, size: 0.05, transparent: true, opacity: 0.6 });
+            const particles = new THREE.Points(particlesGeometry, particlesMaterial);
+            vrScene.add(particles);
+            
+            let time = 0;
+            function animate() {
+                requestAnimationFrame(animate);
+                time += 0.005;
+                particles.rotation.y += 0.0005;
+                if (vrControls) vrControls.update();
+                if (vrRenderer) vrRenderer.render(vrScene, vrCamera);
+            }
+            animate();
+            
+            window.addEventListener('resize', () => {
+                if (vrRenderer && vrCamera) {
+                    const width = container.clientWidth;
+                    const height = container.clientHeight;
+                    vrCamera.aspect = width / height;
+                    vrCamera.updateProjectionMatrix();
+                    vrRenderer.setSize(width, height);
+                }
+            });
+        }
+        
+        const normalMode = document.getElementById('normalMode');
+        const vrModeDiv = document.getElementById('vrMode');
+        const vrBtn = document.getElementById('vrModeBtn');
+        const closeVrBtn = document.getElementById('closeVrBtn');
+        
+        vrBtn.addEventListener('click', () => {
+            normalMode.style.display = 'none';
+            vrModeDiv.classList.add('active');
+            if (!vrActive) {
+                initVR();
+                vrActive = true;
+            }
+        });
+        
+        closeVrBtn.addEventListener('click', () => {
+            vrModeDiv.classList.remove('active');
+            normalMode.style.display = 'block';
+        });
     </script>
 </body>
 </html>
