@@ -1,0 +1,51 @@
+name: Deploy with Secret API Key
+
+on:
+  push:
+    branches: [main, master]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Debug - List files
+        run: |
+          echo "=== Archivos en el repositorio ==="
+          ls -la
+          echo "=== Buscando dinastia.html ==="
+          ls -la dinastia.html || echo "dinastia.html no encontrado en raiz"
+
+      - name: Inject API Key into dinastia.html
+        run: |
+          if [ -f "dinastia.html" ]; then
+            sed -i "s|__GROQ_API_KEY__|${{ secrets.GROQ_API_KEY }}|g" dinastia.html
+            echo "✅ API key inyectada en dinastia.html"
+          else
+            echo "❌ ERROR: No se encontró dinastia.html"
+            exit 1
+          fi
+          
+      - name: Verify injection
+        run: |
+          if grep -q "__GROQ_API_KEY__" dinastia.html; then
+            echo "⚠️ El marcador aún está presente"
+            exit 1
+          else
+            echo "✅ Verificación exitosa"
+          fi
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./
+
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4
