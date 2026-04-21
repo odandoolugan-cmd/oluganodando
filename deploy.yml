@@ -18,13 +18,7 @@ jobs:
 
       - name: Inject API Key into index.html
         run: |
-          if [ -f "index.html" ]; then
-            sed -i "s|__GROQ_API_KEY__|${{ secrets.GROQ_API_KEY }}|g" index.html
-            echo "✅ API key inyectada"
-          else
-            echo "❌ No se encontró index.html"
-            exit 1
-          fi
+          sed -i "s|__GROQ_API_KEY__|${{ secrets.GROQ_API_KEY }}|g" index.html
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
