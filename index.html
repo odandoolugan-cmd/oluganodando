@@ -82,7 +82,7 @@
         <div class="oracle-section">
             <div class="oracle-header">
                 <h3>🧠 Oráculo Táctico</h3>
-                <span class="ai-badge" id="iaStatus">🔍 Conectando IA...</span>
+                <span class="ai-badge">⚡ Sabiduría Ancestral</span>
             </div>
             <p style="margin-bottom:15px; color:#b0c4de; font-size:0.9rem;"><i>⚽ Pregúntale al estratega. Respuestas con ADN futbolero. ⚽</i></p>
             <div id="chat-area">
@@ -107,41 +107,103 @@
 
     <script>
         // ============================================
-        // CONFIGURACIÓN IA LOCAL
+        // ORÁCULO 100% FUTBOLERO (RESPUESTAS LOCALES)
         // ============================================
-        const IA_CONFIG = { ip: '192.168.100.34', puerto: '8005', modelName: 'TINYLLAMA_1_1B_CHAT' };
-        let iaDisponible = false;
         
-        // ============================================
-        // RESPUESTAS LOCALES (RESPALDO)
-        // ============================================
-        const respuestasLocales = [
-            "📋 El 4-3-3 te da salida y amplitud. Necesitas extremos que desequilibren y un 9 de área.",
-            "🔥 Presión alta: sincronización total. Cuando el rival saca de meta, tus delanteros saltan juntos.",
-            "🎯 El 9 de área necesita centro y compañía. Si juega solo, aislado, no sirve.",
-            "🛡️ Línea de 4 en zona: disciplina táctica. El fuera de juego es un arte que se entrena.",
-            "🏟️ En una final, los primeros 15 minutos son vitales. No te expongas, estudia al rival.",
-            "🧠 Gestión del vestuario: los líderes deben hablar. Reuniones cortas, mensajes claros.",
-            "⚡ Si te presionan alto, juega en largo al 9 de espaldas o busca a los laterales en velocidad.",
-            "🎚️ Doble pivote: uno de contención (5) y uno de salida (8). Como Busquets-Xavi.",
-            "💨 Delantero rápido al espacio: tu mediocampo debe tener pase filtrado. Ejemplo: Mbappé.",
-            "📐 Salida de balón contra presión: juega con 3 atrás y un mediocentro que baje al espacio.",
-            "🎙️ Rueda de prensa: no regales titulares. Protege a tu plantel, los errores se corrigen adentro.",
-            "📊 Analiza datos: posesión no es dominio. Mira xG, tiros a puerta, recuperaciones."
-        ];
-        
-        function getRespuestaLocal() {
-            return respuestasLocales[Math.floor(Math.random() * respuestasLocales.length)];
-        }
-        
-        // ============================================
-        // UI
-        // ============================================
         const chatArea = document.getElementById('chat-area');
         const userInput = document.getElementById('userInput');
         const sendBtn = document.getElementById('sendBtn');
-        const iaStatusSpan = document.getElementById('iaStatus');
-        
+
+        const respuestasFutboleras = {
+            formaciones: [
+                "📋 El 4-3-3 te da salida y amplitud. Necesitas extremos que desequilibren y un 9 de área.",
+                "📋 4-4-2 en rombo: recuperación en medio campo y juego asociativo. El '10' tiene que ser talentoso.",
+                "📋 5-3-2 es para partidos de eliminatoria. Línea de 5 firme, laterales con proyección.",
+                "📋 3-4-3 solo si tus centrales son rápidos y salen jugando. Sistema de riesgo pero ofensivo.",
+                "📋 El 4-2-3-1 es el más equilibrado. Doble pivote y tres volantes creativos."
+            ],
+            presion: [
+                "🔥 Presión alta: sincronización total. Cuando el rival saca de meta, tus delanteros saltan juntos.",
+                "⚡ Si te presionan alto, juega en largo al 9 de espaldas o busca a los laterales en velocidad.",
+                "🔄 Contra presión: al perder el balón, tienes 5 segundos para recuperar o replegar.",
+                "🧠 La clave de la presión es no correr como locos. Bloquea líneas de pase.",
+                "📐 Salida contra presión: juega con 3 atrás y un mediocentro que baje al espacio."
+            ],
+            delanteros: [
+                "🎯 El 9 de área necesita centro y compañía. Si juega solo, aislado, no sirve.",
+                "💨 Delantero rápido al espacio: tu mediocampo debe tener pase filtrado.",
+                "🦵 Delantero de espaldas: aguanta, descarga y gira. Como Benzema.",
+                "🤝 Pareja de ataque: un '9' de área y un 'second striker' que se asocie.",
+                "⭐ Delantero goleador: necesita 5 o 6 ocasiones por partido."
+            ],
+            mediocampo: [
+                "🎚️ Doble pivote: uno de contención (5) y uno de salida (8). Como Busquets-Xavi.",
+                "🔗 Volante de enganche: el '10' clásico. Libertad táctica pero responsabilidad.",
+                "🏃‍♂️ Box to box: corre los 90 minutos. Llega al área rival y vuelve.",
+                "🧠 El mediocentro organizador: toca, pausa y cambia el juego. Como Kroos.",
+                "⚔️ Recuperador puro: roba y da simple. El equilibrio del equipo."
+            ],
+            defensa: [
+                "🛡️ Línea de 4 en zona: disciplina táctica. El fuera de juego es un arte.",
+                "💪 Central con salida: no solo defiende, construye desde atrás.",
+                "🏃‍♂️ Lateral con proyección: sube al ataque pero vigila su espalda.",
+                "⚠️ Defensa adelantada: solo si tienes centrales rápidos y portero que barre.",
+                "🧤 Portero moderno: juega con los pies y sale en uno contra uno."
+            ],
+            finales: [
+                "🏟️ En una final, los primeros 15 minutos son vitales. No te expongas.",
+                "⏱️ Minuto 70-80: momento clave. Los cambios pueden decidir.",
+                "🥇 Penales: entrena mentalidad. Lista de 5 lanzadores, orden fijo.",
+                "📿 En finales, la experiencia pesa. Juega con los que ya la vivieron.",
+                "🌡️ Control emocional: hablar en el vestuario, mirar a los ojos."
+            ],
+            mentalidad: [
+                "🧠 Gestión del vestuario: los líderes deben hablar. Mensajes claros.",
+                "😤 Cuando vas perdiendo: pausa, orden y un gol te mete en partido.",
+                "🙌 Motivación: cada jugador es diferente. Unos necesitan charla, otros concentración.",
+                "🔄 Rotaciones: partido cada 3 días. Tus titulares necesitan descanso.",
+                "📈 Racha de resultados: no te duermas. Constancia es la clave."
+            ],
+            general: [
+                "🧐 El fútbol es simple. El que hace menos errores, gana.",
+                "📹 Estudia al rival: busca su punto débil y ataca por ahí.",
+                "🎙️ Rueda de prensa: no regales titulares. Protege a tu plantel.",
+                "🔄 Partido de ida y vuelta: en casa no te confíes. Fuera, un gol de visitante vale oro.",
+                "📊 Analiza datos: posesión no es dominio. Mira xG, tiros a puerta."
+            ]
+        };
+
+        function detectarCategoria(pregunta) {
+            const p = pregunta.toLowerCase();
+            if (p.includes('formacion') || p.includes('sistema') || p.includes('esquema') || p.includes('4-3-3') || p.includes('4-4-2')) 
+                return 'formaciones';
+            if (p.includes('presion') || p.includes('presión') || p.includes('salida') || p.includes('bloque')) 
+                return 'presion';
+            if (p.includes('delantero') || p.includes('9') || p.includes('gol') || p.includes('atacante')) 
+                return 'delanteros';
+            if (p.includes('mediocampo') || p.includes('volante') || p.includes('pivote') || p.includes('enganche')) 
+                return 'mediocampo';
+            if (p.includes('defensa') || p.includes('central') || p.includes('lateral') || p.includes('portero')) 
+                return 'defensa';
+            if (p.includes('final') || p.includes('titulo') || p.includes('copa') || p.includes('campeon')) 
+                return 'finales';
+            if (p.includes('mentalidad') || p.includes('motivar') || p.includes('vestuario') || p.includes('rotacion')) 
+                return 'mentalidad';
+            return 'general';
+        }
+
+        function obtenerRespuesta(pregunta) {
+            const categoria = detectarCategoria(pregunta);
+            const respuestas = respuestasFutboleras[categoria];
+            let respuesta = respuestas[Math.floor(Math.random() * respuestas.length)];
+            
+            const emojisFutbol = ['⚽', '🥅', '📋', '🎯', '🔥', '💪', '🧠', '👟'];
+            if (Math.random() > 0.6) {
+                respuesta = emojisFutbol[Math.floor(Math.random() * emojisFutbol.length)] + " " + respuesta;
+            }
+            return respuesta;
+        }
+
         function addMessage(text, isUser = false) {
             const messageDiv = document.createElement('div');
             messageDiv.className = `message ${isUser ? 'user-msg' : 'ia-msg'}`;
@@ -152,7 +214,7 @@
             chatArea.appendChild(messageDiv);
             chatArea.scrollTop = chatArea.scrollHeight;
         }
-        
+
         function showTyping() {
             const typingDiv = document.createElement('div');
             typingDiv.className = 'message ia-msg';
@@ -161,74 +223,12 @@
             chatArea.appendChild(typingDiv);
             chatArea.scrollTop = chatArea.scrollHeight;
         }
-        
+
         function removeTyping() {
             const typing = document.getElementById('typing-indicator');
             if (typing) typing.remove();
         }
-        
-        // ============================================
-        // IA LOCAL (TinyLlama)
-        // ============================================
-        async function testIA() {
-            try {
-                const controller = new AbortController();
-                const timeout = setTimeout(() => controller.abort(), 3000);
-                const response = await fetch(`http://${IA_CONFIG.ip}:${IA_CONFIG.puerto}/status`, { signal: controller.signal });
-                clearTimeout(timeout);
-                const data = await response.json();
-                iaDisponible = (data.status === 'running' && data.ai?.isEnabled === true);
-                if (iaDisponible) {
-                    iaStatusSpan.innerHTML = "✅ IA Local (TinyLlama)";
-                    iaStatusSpan.style.color = "#10b981";
-                } else {
-                    iaStatusSpan.innerHTML = "⚠️ IA no disponible (Sabiduría local)";
-                    iaStatusSpan.style.color = "#fbbf24";
-                }
-                return iaDisponible;
-            } catch (error) {
-                iaDisponible = false;
-                iaStatusSpan.innerHTML = "⚠️ IA no disponible (Sabiduría local)";
-                iaStatusSpan.style.color = "#fbbf24";
-                return false;
-            }
-        }
-        
-        async function preguntarIA(pregunta) {
-            if (!iaDisponible) return null;
-            
-            try {
-                const prompt = `Eres un oráculo de fútbol sabio. Responde de forma breve, clara y con consejo táctico (máximo 30 palabras). Pregunta: ${pregunta}`;
-                
-                const controller = new AbortController();
-                const timeout = setTimeout(() => controller.abort(), 12000);
-                
-                const response = await fetch(`http://${IA_CONFIG.ip}:${IA_CONFIG.puerto}/ai/text`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        prompt: prompt,
-                        maxTokens: 100,
-                        temperature: 0.7
-                    }),
-                    signal: controller.signal
-                });
-                
-                clearTimeout(timeout);
-                
-                if (!response.ok) return null;
-                const data = await response.json();
-                return data.response || data.text || null;
-                
-            } catch (error) {
-                console.log('Error IA:', error);
-                return null;
-            }
-        }
-        
-        // ============================================
-        // MANEJAR MENSAJE
-        // ============================================
+
         async function handleSend() {
             const question = userInput.value.trim();
             if (!question) return;
@@ -238,29 +238,21 @@
             sendBtn.disabled = true;
             showTyping();
             
-            let respuesta = null;
-            
-            if (iaDisponible) {
-                respuesta = await preguntarIA(question);
-            }
-            
-            removeTyping();
-            
-            if (!respuesta) {
-                respuesta = getRespuestaLocal();
-            }
-            
-            addMessage(respuesta, false);
-            sendBtn.disabled = false;
-            userInput.focus();
+            setTimeout(() => {
+                removeTyping();
+                let respuesta = obtenerRespuesta(question);
+                addMessage(respuesta, false);
+                sendBtn.disabled = false;
+                userInput.focus();
+            }, 800);
         }
-        
+
         sendBtn.addEventListener('click', handleSend);
         userInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') handleSend(); });
         
-        // Inicializar
-        testIA();
-        setInterval(testIA, 30000);
+        setTimeout(() => {
+            addMessage("⚽ Recuerda: el fútbol no se inventa, se trabaja. ¿Neurona táctica hoy? Pregúntame.", false);
+        }, 3000);
     </script>
 
     <!-- Three.js para MODO VR -->
