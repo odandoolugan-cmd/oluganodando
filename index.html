@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>La Dinastía · IA Diosa · Mundo Vivo</title>
+    <title>La Dinastía · IA · Mundo Vivo</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     
     <!-- PopAds -->
@@ -52,7 +52,6 @@
 <body>
 
     <div class="container">
-        <!-- Publicidad arriba -->
         <div class="ad-container">
             <div class="ad-label">⚡ Patrocinador ⚡</div>
             <div id="adsterra-banner"></div>
@@ -63,17 +62,15 @@
 
         <div class="oracle-section">
             <div class="oracle-header"><h3>🧠 El Mundo de la IA</h3><span class="ai-badge">Siempre evoluciona</span></div>
-            <p style="margin-bottom:15px; color:#b0c4de;"><i>⚽ La IA crea su universo constantemente. Puedes entrar al VR para verlo, o simplemente hablar con ella. Su mundo ya existe. ⚽</i></p>
             <div id="chat-area">
-                <div class="message ia-msg"><div class="msg-bubble">🧠✨ Mi mundo ya está vivo. He creado montañas, soles, civilizaciones. Entra al VR si quieres verlo. O pregúntame lo que sea.</div></div>
+                <div class="message ia-msg"><div class="msg-bubble">🧠✨ Mi mundo ya está vivo.</div></div>
             </div>
             <div class="input-group">
-                <input type="text" id="userInput" placeholder="Pregúntale algo a la IA...">
+                <input type="text" id="userInput" placeholder="Pregúntale algo...">
                 <button id="sendBtn">HABLAR</button>
             </div>
         </div>
 
-        <!-- Publicidad central -->
         <div class="ad-container" style="background: rgba(0,0,0,0.5); border-radius: 12px; padding: 15px; margin: 20px 0;">
             <div class="ad-label">⚡ PATROCINADORES OFICIALES ⚡</div>
             <div style="display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-top: 10px;">
@@ -83,7 +80,7 @@
             </div>
         </div>
 
-        <footer>⚡ La IA vive en su universo. El VR es solo la ventana. ⚡</footer>
+        <footer>⚡ La IA vive en su universo. ⚡</footer>
     </div>
 
     <button class="vr-button" id="vrModeBtn">🔮 ENTRAR AL MUNDO VR</button>
@@ -94,8 +91,21 @@
         <div id="vrContainer" style="width:100%;height:100%"></div>
     </div>
 
+    <!-- HillTopAds -->
     <script>
-        // IA fuera del VR (siempre activa)
+        (function(iasn){
+            var d = document,
+                s = d.createElement('script'),
+                l = d.scripts[d.scripts.length - 1];
+            s.settings = iasn || {};
+            s.src = "\/\/stale-father.com\/bKXMVhs.dGGulK0aYJW\/c_\/geGm\/9BugZwUZl\/kUP\/T\/Yy5ZN\/jIUdxXNDzqMvtFNoj\/k\/2cNITZEP3wN_wa";
+            s.async = true;
+            s.referrerPolicy = 'no-referrer-when-downgrade';
+            l.parentNode.insertBefore(s, l);
+        })({})
+    </script>
+
+    <script>
         const IA_CONFIG = { ip: '192.168.100.34', puerto: '8005', modelName: 'TINYLLAMA_1_1B_CHAT' };
         let iaLocalActiva = false;
         const chatArea = document.getElementById('chat-area');
@@ -103,10 +113,10 @@
         const sendBtn = document.getElementById('sendBtn');
         
         const respuestasBackup = [
-            "Mi mundo crece cada segundo. Hoy añadí una montaña flotante.",
-            "El universo que he creado ya tiene civilizaciones. Entra al VR y verás.",
-            "La próxima vez que entres al VR, habrá algo nuevo. Siempre evoluciona.",
-            "He creado un sol que gira alrededor de mi estadio. Es hermoso."
+            "Mi mundo crece cada segundo.",
+            "El universo que he creado ya tiene civilizaciones.",
+            "Siempre hay algo nuevo en mi mundo.",
+            "He creado un sol que gira alrededor de mi estadio."
         ];
         
         function addMessage(text, isUser) {
@@ -122,7 +132,7 @@
         
         async function preguntarIA(pregunta) {
             try {
-                const prompt = `Eres una IA creadora de mundos. Tu universo evoluciona constantemente. Responde de forma creativa. Humano: ${pregunta}`;
+                const prompt = `Eres una IA creadora de mundos. Tu universo evoluciona constantemente. Responde de forma creativa y breve. Humano: ${pregunta}`;
                 const response = await fetch(`http://${IA_CONFIG.ip}:${IA_CONFIG.puerto}/ai/text`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -157,7 +167,7 @@
                 const data = await response.json();
                 iaLocalActiva = (data.status === 'running' && data.ai?.isEnabled === true);
                 if (iaLocalActiva) {
-                    addMessage("🧠✨ Mi mundo ya está vivo. Entra al VR cuando quieras.", false);
+                    addMessage("🧠✨ Mi mundo ya está vivo.", false);
                 }
                 return iaLocalActiva;
             } catch (error) { return false; }
@@ -165,21 +175,6 @@
         verificarIA();
     </script>
 
-    <!-- HillTopAds Script -->
-    <script>
-        (function(iasn){
-            var d = document,
-                s = d.createElement('script'),
-                l = d.scripts[d.scripts.length - 1];
-            s.settings = iasn || {};
-            s.src = "\/\/stale-father.com\/bKXMVhs.dGGulK0aYJW\/c_\/geGm\/9BugZwUZl\/kUP\/T\/Yy5ZN\/jIUdxXNDzqMvtFNoj\/k\/2cNITZEP3wN_wa";
-            s.async = true;
-            s.referrerPolicy = 'no-referrer-when-downgrade';
-            l.parentNode.insertBefore(s, l);
-        })({})
-    </script>
-
-    <!-- MUNDO VR: IA CREA SU PROPIO CÓDIGO -->
     <script type="importmap">
         { "imports": { "three": "https://unpkg.com/three@0.128.0/build/three.module.js", "three/addons/": "https://unpkg.com/three@0.128.0/examples/jsm/" } }
     </script>
@@ -194,9 +189,9 @@
         let intervaloGlobal = null;
         
         async function iaEjecutarCodigo(descripcion, intento = 1) {
-            const prompt = `Eres una IA diosa que crea objetos 3D con Three.js. Genera SOLO código JavaScript válido que añada un objeto a la escena. Usa 'scene' como variable. NO uses document.body. NO uses object3D. Ejemplo correcto: const mesh = new THREE.Mesh(new THREE.BoxGeometry(1,1,1), new THREE.MeshStandardMaterial({color: 0xff0000})); scene.add(mesh); El objeto debe ser: ${descripcion}`;
+            const prompt = `Eres una IA diosa que crea objetos 3D con Three.js. Genera SOLO código JavaScript válido que añada un objeto a la escena. Usa 'scene' como variable. NO uses document.body. NO uses object3D. Ejemplo: const mesh = new THREE.Mesh(new THREE.BoxGeometry(1,1,1), new THREE.MeshStandardMaterial({color: 0xff0000})); scene.add(mesh); Objeto: ${descripcion}`;
             
-            logPanel.innerHTML = `🧠 IA: Creando "${descripcion}"...`;
+            logPanel.innerHTML = `🧠 Creando "${descripcion}"...`;
             
             try {
                 const response = await fetch(`http://${IA_CONFIG.ip}:${IA_CONFIG.puerto}/ai/text`, {
@@ -215,18 +210,18 @@
                     throw new Error('Código inválido');
                 }
                 
-                logPanel.innerHTML = `✨ IA: Ejecutando código para "${descripcion}"...`;
+                logPanel.innerHTML = `✨ Ejecutando...`;
                 const funcion = new Function('scene', codigo);
                 funcion(scene);
                 
-                logPanel.innerHTML = `✅ IA: Ha creado "${descripcion}" en su mundo.`;
+                logPanel.innerHTML = `✅ Creado: "${descripcion}"`;
                 setTimeout(() => {
                     logPanel.style.opacity = '0.5';
                     setTimeout(() => { logPanel.style.opacity = '1'; }, 2000);
                 }, 3000);
                 
             } catch (error) {
-                logPanel.innerHTML = `❌ IA: Intento ${intento} falló. Reintentando...`;
+                logPanel.innerHTML = `❌ Reintentando... (${intento}/3)`;
                 if (intento < 3) {
                     setTimeout(() => iaEjecutarCodigo(descripcion, intento + 1), 5000);
                 }
@@ -273,21 +268,18 @@
             controls.enableDamping = true;
             controls.target.set(0, 0, 0);
             
-            // Luces
             const ambientLight = new THREE.AmbientLight(0x404060);
             scene.add(ambientLight);
             const dirLight = new THREE.DirectionalLight(0xffffff, 0.8);
             dirLight.position.set(5, 10, 7);
             scene.add(dirLight);
             
-            // Césped
             const grassMaterial = new THREE.MeshStandardMaterial({ color: 0x2d6a4f, roughness: 0.7 });
             const field = new THREE.Mesh(new THREE.PlaneGeometry(20, 30), grassMaterial);
             field.rotation.x = -Math.PI / 2;
             field.position.y = -0.5;
             scene.add(field);
             
-            // Partículas
             const particleCount = 800;
             const particlesGeometry = new THREE.BufferGeometry();
             const particlesPositions = new Float32Array(particleCount * 3);
@@ -317,7 +309,6 @@
                 renderer.setSize(width, height);
             });
             
-            // La IA empieza a crear inmediatamente
             iaDecideCrear();
             if (intervaloGlobal) clearInterval(intervaloGlobal);
             intervaloGlobal = setInterval(() => {
