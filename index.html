@@ -8,11 +8,6 @@
     
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     
-    <!-- PopAds Script -->
-    <script type="text/javascript" data-cfasync="false">
-    (function(){var l=window,g="c661332ac5e306650a561bb5b8243384",r=[["siteId",822+591-286*247+44+5361640],["minBid",0],["popundersPerIP","0"],["delayBetween",0],["default",false],["defaultPerDay",0],["topmostLayer","auto"]],k=["d3d3LmJsb2NrYWRzbm90LmNvbS9yWVJqRy92cHVyZS5taW4uanM=","ZG5oZmk1bm4yZHQ2Ny5jbG91ZGZyb250Lm5ldC9id2dBSS9LaHl6TFgvaGVwb2NoLm1pbi5jc3M="],m=-1,u,c,b=function(){clearTimeout(c);m++;if(k[m]&&!(1802656844000<(new Date).getTime()&&1<m)){u=l.document.createElement("script");u.type="text/javascript";u.async=!0;var n=l.document.getElementsByTagName("script")[0];u.src="https://"+atob(k[m]);u.crossOrigin="anonymous";u.onerror=b;u.onload=function(){clearTimeout(c);l[g.slice(0,16)+g.slice(0,16)]||b()};c=setTimeout(b,5E3);n.parentNode.insertBefore(u,n)}};if(!l[g]){try{Object.freeze(l[g]=r)}catch(e){}b()}})();
-    </script>
-    
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background: linear-gradient(160deg, #1a222c 0%, #2c3a4a 50%, #1a222c 100%); font-family: 'Montserrat', sans-serif; color: #f0f4f8; line-height: 1.6; padding: 20px; min-height: 100vh; }
@@ -45,10 +40,6 @@
         .typing-dots::after { content: '...'; animation: dots 1.5s steps(4, end) infinite; display: inline-block; width: 24px; text-align: left; }
         @keyframes dots { 0%, 20% { content: ''; } 40% { content: '.'; } 60% { content: '..'; } 80%, 100% { content: '...'; } }
         
-        /* Anuncios */
-        .ad-container { text-align: center; margin: 20px 0; padding: 10px; background: rgba(0,0,0,0.3); border-radius: 10px; }
-        .ad-label { font-size: 11px; color: #7a9aae; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px; }
-        
         .vr-button { position: fixed; bottom: 20px; right: 20px; background: linear-gradient(135deg, #f59e0b, #d97706); border: none; padding: 12px 20px; border-radius: 40px; color: white; font-weight: bold; cursor: pointer; z-index: 100; font-family: 'Cinzel', serif; box-shadow: 0 0 15px rgba(245,158,11,0.5); transition: transform 0.2s; }
         .vr-button:hover { transform: scale(1.05); }
         .vr-mode { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1000; display: none; background: #0a0f1e; }
@@ -61,24 +52,8 @@
 <body>
     <div class="container">
         
-        <!-- ANUNCIO ARRIBA -->
-        <div class="ad-container">
-            <div class="ad-label">⚡ Patrocinador ⚡</div>
-            <div id="adsterra-banner"></div>
-        </div>
-        
         <h1>🏆 LA DINASTÍA 🏆</h1>
         <div class="subtitle">El Camino a la Gloria Eterna · Táctica, Pasión y Leyenda</div>
-
-        <!-- SMART LINKS ADSTERRA -->
-        <div class="ad-container" style="background: rgba(0,0,0,0.5); border-radius: 12px; padding: 15px; margin: 20px 0;">
-            <div class="ad-label">⚡ PATROCINADORES OFICIALES ⚡</div>
-            <div style="display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-top: 10px;">
-                <a href="https://www.profitablecpmratenetwork.com/cuitcvgz?key=85ca230e218898f76e48c348cafb2311" target="_blank" rel="nofollow" style="background: linear-gradient(90deg, #e9c46a, #f4a261); color: #1a222c; padding: 10px 20px; border-radius: 40px; text-decoration: none; font-weight: bold; font-family: 'Cinzel', serif;">🎮 OFERTA 1</a>
-                <a href="https://www.profitablecpmratenetwork.com/b27uffyn?key=5b35819451353807b0e99b21addde69a" target="_blank" rel="nofollow" style="background: linear-gradient(90deg, #2a9d8f, #264653); color: white; padding: 10px 20px; border-radius: 40px; text-decoration: none; font-weight: bold; font-family: 'Cinzel', serif;">🎲 OFERTA 2</a>
-                <div style="background: rgba(255,255,255,0.1); border: 2px dashed #e9c46a; border-radius: 40px; padding: 10px 20px; min-width: 120px; text-align: center; font-size: 0.7rem; color: #e9c46a;">⏳ PRÓXIMAMENTE</div>
-            </div>
-        </div>
 
         <div class="stage-grid">
             <div class="stage-card"><h2>1. La Fundación</h2><p>Construir desde la defensa. El primer trofeo llega con orden.</p></div>
@@ -102,12 +77,6 @@
                 <input type="text" id="userInput" placeholder="Ej: '¿Qué hago si me presionan alto?' o '¿4-3-3 o 4-4-2?'">
                 <button id="sendBtn">CONSULTAR</button>
             </div>
-        </div>
-        
-        <!-- ANUNCIO HILLTOPADS -->
-        <div class="ad-container">
-            <div class="ad-label">⚡ Patrocinador ⚡</div>
-            <div id="hilltopads-banner"></div>
         </div>
         
         <footer>⚡ El verdadero legado se forja en las finales. La gloria espera a los valientes. ⚡</footer>
@@ -176,9 +145,7 @@
         }
         
         async function preguntarGroq(pregunta) {
-            if (GROQ_API_KEY === "__GROQ_API_KEY__") {
-                return null;
-            }
+            if (GROQ_API_KEY === "__GROQ_API_KEY__") return null;
             
             try {
                 const response = await fetch(GROQ_URL, {
