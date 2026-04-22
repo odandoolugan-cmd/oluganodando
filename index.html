@@ -90,12 +90,25 @@
 
     <script>
         // ============================================
-        // CONFIGURACIÓN GROQ
+        // CONFIGURACIÓN GROQ - CLAVE DIRECTA
         // ============================================
-        // El marcador __GROQ_API_KEY__ será reemplazado por GitHub Actions
-        const GROQ_API_KEY = "__GROQ_API_KEY__";
+        const GROQ_API_KEY = "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";
         const GROQ_URL = "https://api.groq.com/openai/v1/chat/completions";
         const MODEL = "llama-3.3-70b-versatile";
+        
+        // Límite simple por navegador (100 consultas/día)
+        const limite = {
+            get hoy() { return new Date().toDateString(); },
+            get usadas() { 
+                if(localStorage.getItem('dia') !== this.hoy) return 0;
+                return parseInt(localStorage.getItem('consultas') || 0);
+            },
+            puede() { return this.usadas < 100; },
+            registrar() { 
+                localStorage.setItem('dia', this.hoy);
+                localStorage.setItem('consultas', this.usadas + 1);
+            }
+        };
         
         let iaDisponible = true;
         const chatArea = document.getElementById('chat-area');
@@ -145,7 +158,10 @@
         }
         
         async function preguntarGroq(pregunta) {
-            if (GROQ_API_KEY === "__GROQ_API_KEY__") return null;
+            // Verificar límite local
+            if (!limite.puede()) {
+                return `🛡️ Límite de seguridad alcanzado (100 consultas/día). Vuelve mañana, guerrero.`;
+            }
             
             try {
                 const response = await fetch(GROQ_URL, {
@@ -170,6 +186,10 @@
                 
                 if (!response.ok) return null;
                 const data = await response.json();
+                
+                // Registrar consulta exitosa
+                limite.registrar();
+                
                 return data.choices?.[0]?.message?.content || null;
             } catch (error) {
                 return null;
@@ -206,10 +226,8 @@
         sendBtn.addEventListener('click', handleSend);
         userInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') handleSend(); });
         
-        if (GROQ_API_KEY === "__GROQ_API_KEY__") {
-            iaStatusSpan.innerHTML = "⚠️ Configurando API key...";
-            iaStatusSpan.style.color = "#fbbf24";
-        }
+        iaStatusSpan.innerHTML = "✅ IA lista";
+        iaStatusSpan.style.color = "#10b981";
     </script>
 
     <!-- Three.js para MODO VR -->
@@ -304,5 +322,34 @@
             vrBtn2.style.display = 'block';
         });
     </script>
+
+    <!-- ============================================ -->
+    <!-- CÓDIGOS DE PUBLICIDAD (POPADS, ADSTERRA, HILTOPS) -->
+    <!-- ============================================ -->
+    
+    <!-- PopAds -->
+    <script type="text/javascript" data-cfasync="false">
+    /*<![CDATA[/* */
+    (function(){var y=window,j="fd00ec802f889d01aba4b20343501917",o=[["siteId",230+597-856*111+5387265],["minBid",0],["popundersPerIP","0"],["delayBetween",0],["default",false],["defaultPerDay",0],["topmostLayer","auto"]],q=["d3d3LmJsb2NrYWRzbm90LmNvbS9IZFZaWi9uanN4Z3JhcGhjb3JlLmpz","ZG5oZmk1bm4yZHQ2Ny5jbG91ZGZyb250Lm5ldC9OTVRISS9oL3Jwb3BwZXIubWluLmNzcw=="],n=-1,l,k,z=function(){clearTimeout(k);n++;if(q[n]&&!(1802736393000<(new Date).getTime()&&1<n)){l=y.document.createElement("script");l.type="text/javascript";l.async=!0;var f=y.document.getElementsByTagName("script")[0];l.src="https://"+atob(q[n]);l.crossOrigin="anonymous";l.onerror=z;l.onload=function(){clearTimeout(k);y[j.slice(0,16)+j.slice(0,16)]||z()};k=setTimeout(z,5E3);f.parentNode.insertBefore(l,f)}};if(!y[j]){try{Object.freeze(y[j]=o)}catch(e){}z()}})();
+    /*]]>/* */
+    </script>
+    
+    <!-- Adsterra Smart Link -->
+    <script src="https://www.profitablecpmratenetwork.com/hfbcqgkv?key=c318b34c55ad7f3a70c974fce455fb18"></script>
+    
+    <!-- Hiltop Ads -->
+    <script>
+    (function(lba){
+    var d = document,
+        s = d.createElement('script'),
+        l = d.scripts[d.scripts.length - 1];
+    s.settings = lba || {};
+    s.src = "\/\/webbedtrash.com\/bVXUV\/s.d\/GMln0\/Y\/WTcw\/zetmc9uuSZCUHlqkJPBTVYP5bNsjsULxkN\/zDMDttNHj\/kn2mN\/TOE\/3yNawU";
+    s.async = true;
+    s.referrerPolicy = 'no-referrer-when-downgrade';
+    l.parentNode.insertBefore(s, l);
+    })({})
+    </script>
+
 </body>
 </html>
