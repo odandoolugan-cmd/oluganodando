@@ -16,10 +16,24 @@
         h1, h2, h3 { font-family: 'Cinzel', serif; color: #e9c46a; }
         h1 { font-size: 2.5rem; text-align: center; margin-bottom: 10px; text-shadow: 0 0 20px rgba(233,196,106,0.3); letter-spacing: 2px; }
         .subtitle { text-align: center; color: #b0c4de; margin-bottom: 30px; font-style: italic; border-bottom: 1px solid #4a6572; padding-bottom: 20px; }
+        
+        /* Sección de noticias automáticas */
+        .news-section { background: rgba(18,28,36,0.8); border-radius: 12px; margin: 30px 0; padding: 20px; border: 1px solid #4a6572; }
+        .news-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
+        .news-header h3 { font-size: 1.3rem; margin: 0; }
+        .update-badge { background: #2c3a4a; padding: 5px 12px; border-radius: 40px; font-size: 0.7rem; color: #e9c46a; border: 1px solid #5a7a8a; }
+        .news-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; }
+        .news-card { background: rgba(25,35,45,0.9); border-radius: 8px; padding: 15px; transition: transform 0.3s; cursor: pointer; border-left: 3px solid #e9c46a; }
+        .news-card:hover { transform: translateY(-3px); background: rgba(35,45,55,0.9); }
+        .news-title { font-family: 'Cinzel', serif; font-size: 1rem; margin-bottom: 8px; color: #e9c46a; }
+        .news-summary { font-size: 0.8rem; color: #b0c4de; line-height: 1.4; }
+        .news-meta { font-size: 0.65rem; color: #7a9aae; margin-top: 8px; display: flex; justify-content: space-between; }
+        
         .stage-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 30px 0; }
         .stage-card { background: rgba(25,35,45,0.8); border: 1px solid #5a7a8a; padding: 15px; border-radius: 8px; backdrop-filter: blur(2px); transition: transform 0.3s; }
         .stage-card:hover { transform: translateY(-5px); border-color: #e9c46a; }
         .stage-card h2 { font-size: 1.3rem; margin-bottom: 10px; border-left: 4px solid #e9c46a; padding-left: 15px; }
+        
         .oracle-section { background: rgba(18,28,36,0.9); border: 1px solid #e9c46a; border-radius: 12px; padding: 20px; margin: 30px 0; backdrop-filter: blur(4px); box-shadow: 0 0 30px rgba(0,0,0,0.5); }
         .oracle-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
         .oracle-header h3 { font-size: 1.5rem; color: #e9c46a; margin: 0; }
@@ -47,7 +61,7 @@
         .vr-mode.active { display: block; }
         .close-vr { position: fixed; top: 20px; right: 20px; background: rgba(0,0,0,0.7); border: 1px solid #e9c46a; padding: 8px 16px; border-radius: 30px; color: #e9c46a; cursor: pointer; z-index: 1001; font-family: monospace; }
         
-        @media (max-width: 600px) { h1 { font-size: 2rem; } .stage-grid { grid-template-columns: 1fr; } .vr-button { padding: 8px 15px; font-size: 0.8rem; } }
+        @media (max-width: 600px) { h1 { font-size: 2rem; } .stage-grid, .news-grid { grid-template-columns: 1fr; } .vr-button { padding: 8px 15px; font-size: 0.8rem; } }
     </style>
 </head>
 <body>
@@ -55,6 +69,17 @@
         
         <h1>🏆 LA DINASTÍA 🏆</h1>
         <div class="subtitle">El Camino a la Gloria Eterna · Táctica, Pasión y Leyenda</div>
+
+        <!-- SECCIÓN DE NOTICIAS AUTOMÁTICAS -->
+        <div class="news-section">
+            <div class="news-header">
+                <h3>⚡ ÚLTIMAS NOTICIAS DEL FÚTBOL MUNDIAL ⚡</h3>
+                <span class="update-badge" id="newsStatus">📡 Actualizando...</span>
+            </div>
+            <div id="newsContainer" class="news-grid">
+                <div style="text-align:center; padding:20px;">Cargando noticias...</div>
+            </div>
+        </div>
 
         <div class="stage-grid">
             <div class="stage-card"><h2>1. La Fundación</h2><p>Construir desde la defensa. El primer trofeo llega con orden.</p></div>
@@ -91,27 +116,127 @@
 
     <script>
         // ============================================
-        // CONFIGURACIÓN GROQ - CLAVE DIRECTA
+        // CONFIGURACIÓN - ACTUALIZACIÓN AUTOMÁTICA
         // ============================================
+        
+        // API Key de Groq
         const GROQ_API_KEY = "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";
         const GROQ_URL = "https://api.groq.com/openai/v1/chat/completions";
         const MODEL = "llama-3.3-70b-versatile";
         
-        // Límite simple por navegador (100 consultas/día)
+        // Límite de consultas
         const limite = {
             get hoy() { return new Date().toDateString(); },
             get usadas() { 
-                if(localStorage.getItem('dia') !== this.hoy) return 0;
-                return parseInt(localStorage.getItem('consultas') || 0);
+                if(localStorage.getItem('dia_oraculo') !== this.hoy) return 0;
+                return parseInt(localStorage.getItem('consultas_oraculo') || 0);
             },
             puede() { return this.usadas < 100; },
             registrar() { 
-                localStorage.setItem('dia', this.hoy);
-                localStorage.setItem('consultas', this.usadas + 1);
+                localStorage.setItem('dia_oraculo', this.hoy);
+                localStorage.setItem('consultas_oraculo', this.usadas + 1);
             }
         };
         
-        let iaDisponible = true;
+        // ============================================
+        // NOTICIAS AUTOMÁTICAS DESDE RSS
+        // ============================================
+        
+        const rssFuentes = [
+            { nombre: "Marca", url: "https://e00-marca.uecdn.es/rss/futbol.xml", categoria: "futbol" },
+            { nombre: "AS", url: "https://as.com/rss/futbol.xml", categoria: "futbol" },
+            { nombre: "ESPN", url: "https://www.espn.com/espn/rss/football/news", categoria: "futbol" },
+            { nombre: "Sport", url: "https://www.sport.es/rss/futbol.xml", categoria: "futbol" }
+        ];
+        
+        async function obtenerNoticiasFutbol() {
+            const todas = [];
+            const proxy = "https://api.rss2json.com/v1/api.json?rss_url=";
+            
+            for (const fuente of rssFuentes) {
+                try {
+                    const response = await fetch(proxy + encodeURIComponent(fuente.url));
+                    const data = await response.json();
+                    
+                    if (data.status === "ok" && data.items) {
+                        for (let item of data.items.slice(0, 3)) {
+                            todas.push({
+                                id: `news_${Date.now()}_${Math.random()}`,
+                                titulo: item.title,
+                                resumen: (item.description || item.content || "").substring(0, 120) + "...",
+                                contenido: item.description || item.content || "",
+                                fuente: fuente.nombre,
+                                fecha: new Date(item.pubDate).toLocaleDateString('es-ES'),
+                                url: item.link
+                            });
+                        }
+                    }
+                } catch (error) {
+                    console.log(`Error en ${fuente.nombre}:`, error);
+                }
+            }
+            
+            // Si no hay noticias, usar respaldo
+            if (todas.length === 0) {
+                return obtenerNoticiasRespaldo();
+            }
+            
+            // Mezclar y devolver top 8
+            return todas.sort(() => Math.random() - 0.5).slice(0, 8);
+        }
+        
+        function obtenerNoticiasRespaldo() {
+            return [
+                { titulo: "¡Bombazo! El Real Madrid negocia por la estrella del City", resumen: "Las conversaciones estarían avanzadas para el próximo mercado.", fuente: "Marca", fecha: new Date().toLocaleDateString('es-ES') },
+                { titulo: "El Barcelona busca refuerzos para la próxima temporada", resumen: "Deco ya tiene una lista de objetivos prioritarios.", fuente: "Sport", fecha: new Date().toLocaleDateString('es-ES') },
+                { titulo: "Premier League: ¿Quién será el campeón esta temporada?", resumen: "City y Arsenal disputan el título punto a punto.", fuente: "ESPN", fecha: new Date().toLocaleDateString('es-ES') },
+                { titulo: "La Champions League define sus semifinalistas", resumen: "Los octavos dejan enormes sorpresas en el torneo.", fuente: "AS", fecha: new Date().toLocaleDateString('es-ES') }
+            ];
+        }
+        
+        async function actualizarNoticias() {
+            const newsContainer = document.getElementById('newsContainer');
+            const newsStatus = document.getElementById('newsStatus');
+            
+            newsStatus.innerHTML = "📡 Buscando noticias...";
+            newsStatus.style.color = "#fbbf24";
+            
+            const noticias = await obtenerNoticiasFutbol();
+            
+            // Guardar en localStorage para el día
+            const hoy = new Date().toDateString();
+            localStorage.setItem('noticias_futbol', JSON.stringify(noticias));
+            localStorage.setItem('fecha_noticias_futbol', hoy);
+            
+            renderizarNoticias(noticias);
+            newsStatus.innerHTML = `✅ ${noticias.length} noticias actualizadas`;
+            newsStatus.style.color = "#10b981";
+        }
+        
+        function renderizarNoticias(noticias) {
+            const container = document.getElementById('newsContainer');
+            
+            if (!noticias || noticias.length === 0) {
+                container.innerHTML = '<div style="text-align:center; padding:20px;">⚽ No hay noticias en este momento</div>';
+                return;
+            }
+            
+            container.innerHTML = noticias.map(noticia => `
+                <div class="news-card" onclick="window.open('${noticia.url || '#'}', '_blank')">
+                    <div class="news-title">⚽ ${escapeHtml(noticia.titulo.substring(0, 80))}${noticia.titulo.length > 80 ? '...' : ''}</div>
+                    <div class="news-summary">${escapeHtml(noticia.resumen || noticia.contenido?.substring(0, 100) || '')}</div>
+                    <div class="news-meta">
+                        <span>📰 ${escapeHtml(noticia.fuente)}</span>
+                        <span>📅 ${noticia.fecha}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // ============================================
+        // CHAT CON IA (GROQ)
+        // ============================================
+        
         const chatArea = document.getElementById('chat-area');
         const userInput = document.getElementById('userInput');
         const sendBtn = document.getElementById('sendBtn');
@@ -123,7 +248,9 @@
             "🎯 El 9 de área necesita centro y compañía. Si juega solo, no sirve.",
             "🛡️ Línea de 4 en zona: disciplina táctica. El fuera de juego es un arte.",
             "🏟️ En una final, los primeros 15 minutos son vitales. No te expongas.",
-            "🧠 Gestión del vestuario: los líderes deben hablar. Reuniones cortas."
+            "🧠 Gestión del vestuario: los líderes deben hablar. Reuniones cortas.",
+            "⚡ Contragolpe mortal: recupera y busca al 10 de inmediato.",
+            "🎯 Doble pivote: uno de contención y otro de salida. Equilibrio puro."
         ];
         
         function getRespuestaBackup() {
@@ -159,9 +286,8 @@
         }
         
         async function preguntarGroq(pregunta) {
-            // Verificar límite local
             if (!limite.puede()) {
-                return `🛡️ Límite de seguridad alcanzado (100 consultas/día). Vuelve mañana, guerrero.`;
+                return `🛡️ Límite de 100 consultas/día alcanzado. Vuelve mañana.`;
             }
             
             try {
@@ -187,12 +313,10 @@
                 
                 if (!response.ok) return null;
                 const data = await response.json();
-                
-                // Registrar consulta exitosa
                 limite.registrar();
-                
                 return data.choices?.[0]?.message?.content || null;
             } catch (error) {
+                console.error("Error IA:", error);
                 return null;
             }
         }
@@ -207,16 +331,12 @@
             showTyping();
             
             let respuesta = await preguntarGroq(question);
-            
             removeTyping();
             
             if (!respuesta) {
                 respuesta = getRespuestaBackup();
-                iaStatusSpan.innerHTML = "⚠️ Usando sabiduría ancestral";
+                iaStatusSpan.innerHTML = "⚠️ Sabiduría ancestral";
                 iaStatusSpan.style.color = "#fbbf24";
-            } else {
-                iaStatusSpan.innerHTML = "✅ IA conectada (Groq)";
-                iaStatusSpan.style.color = "#10b981";
             }
             
             addMessage(respuesta, false);
@@ -227,8 +347,36 @@
         sendBtn.addEventListener('click', handleSend);
         userInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') handleSend(); });
         
-        iaStatusSpan.innerHTML = "✅ IA lista";
-        iaStatusSpan.style.color = "#10b981";
+        // ============================================
+        // INICIALIZACIÓN - ACTUALIZACIÓN AUTOMÁTICA DIARIA
+        // ============================================
+        
+        async function init() {
+            const hoy = new Date().toDateString();
+            const noticiasGuardadas = localStorage.getItem('noticias_futbol');
+            const fechaGuardada = localStorage.getItem('fecha_noticias_futbol');
+            
+            // Cargar noticias (nuevas si cambió el día)
+            if (noticiasGuardadas && fechaGuardada === hoy) {
+                renderizarNoticias(JSON.parse(noticiasGuardadas));
+                document.getElementById('newsStatus').innerHTML = `✅ Noticias del día ${hoy}`;
+            } else {
+                await actualizarNoticias();
+            }
+            
+            // IA lista
+            iaStatusSpan.innerHTML = "✅ IA lista";
+            iaStatusSpan.style.color = "#10b981";
+        }
+        
+        init();
+        
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
     </script>
 
     <!-- Three.js para MODO VR -->
@@ -286,6 +434,24 @@
             field.receiveShadow = true;
             scene.add(field);
             
+            // Agregar un escudo/dinastía flotante
+            const canvas = document.createElement('canvas');
+            canvas.width = 512;
+            canvas.height = 512;
+            const ctx = canvas.getContext('2d');
+            ctx.fillStyle = '#1a222c';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.font = 'Bold 80px "Cinzel"';
+            ctx.fillStyle = '#e9c46a';
+            ctx.textAlign = 'center';
+            ctx.fillText('🏆', canvas.width/2, canvas.height/2);
+            ctx.font = '40px "Cinzel"';
+            ctx.fillText('DINASTÍA', canvas.width/2, canvas.height - 100);
+            const logoTexture = new THREE.CanvasTexture(canvas);
+            const logoPlane = new THREE.Mesh(new THREE.PlaneGeometry(3, 3), new THREE.MeshStandardMaterial({ map: logoTexture, side: THREE.DoubleSide }));
+            logoPlane.position.set(0, 2, -4);
+            scene.add(logoPlane);
+            
             function animate() {
                 requestAnimationFrame(animate);
                 controls.update();
@@ -325,7 +491,7 @@
     </script>
 
     <!-- ============================================ -->
-    <!-- CÓDIGOS DE PUBLICIDAD -->
+    <!-- PUBLICIDAD -->
     <!-- ============================================ -->
     
     <!-- PopAds -->
@@ -335,10 +501,10 @@
     /*]]>/* */
     </script>
     
-    <!-- Adsterra Smart Link (NUEVO) -->
+    <!-- Adsterra -->
     <script src="https://pl29137063.profitablecpmratenetwork.com/61/2f/c0/612fc0895a4d18ef5b58ae13c6940b8d.js"></script>
     
-    <!-- Hiltop Ads -->
+    <!-- HilltopAds -->
     <script>
     (function(lba){
     var d = document,
