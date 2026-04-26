@@ -17,18 +17,6 @@
         h1 { font-size: 2.5rem; text-align: center; margin-bottom: 10px; text-shadow: 0 0 20px rgba(233,196,106,0.3); letter-spacing: 2px; }
         .subtitle { text-align: center; color: #b0c4de; margin-bottom: 30px; font-style: italic; border-bottom: 1px solid #4a6572; padding-bottom: 20px; }
         
-        /* Sección de noticias automáticas */
-        .news-section { background: rgba(18,28,36,0.8); border-radius: 12px; margin: 30px 0; padding: 20px; border: 1px solid #4a6572; }
-        .news-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
-        .news-header h3 { font-size: 1.3rem; margin: 0; }
-        .update-badge { background: #2c3a4a; padding: 5px 12px; border-radius: 40px; font-size: 0.7rem; color: #e9c46a; border: 1px solid #5a7a8a; }
-        .news-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; }
-        .news-card { background: rgba(25,35,45,0.9); border-radius: 8px; padding: 15px; transition: transform 0.3s; cursor: pointer; border-left: 3px solid #e9c46a; }
-        .news-card:hover { transform: translateY(-3px); background: rgba(35,45,55,0.9); }
-        .news-title { font-family: 'Cinzel', serif; font-size: 1rem; margin-bottom: 8px; color: #e9c46a; }
-        .news-summary { font-size: 0.8rem; color: #b0c4de; line-height: 1.4; }
-        .news-meta { font-size: 0.65rem; color: #7a9aae; margin-top: 8px; display: flex; justify-content: space-between; }
-        
         .stage-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 30px 0; }
         .stage-card { background: rgba(25,35,45,0.8); border: 1px solid #5a7a8a; padding: 15px; border-radius: 8px; backdrop-filter: blur(2px); transition: transform 0.3s; }
         .stage-card:hover { transform: translateY(-5px); border-color: #e9c46a; }
@@ -61,31 +49,17 @@
         .vr-mode.active { display: block; }
         .close-vr { position: fixed; top: 20px; right: 20px; background: rgba(0,0,0,0.7); border: 1px solid #e9c46a; padding: 8px 16px; border-radius: 30px; color: #e9c46a; cursor: pointer; z-index: 1001; font-family: monospace; }
         
-        @media (max-width: 600px) { h1 { font-size: 2rem; } .stage-grid, .news-grid { grid-template-columns: 1fr; } .vr-button { padding: 8px 15px; font-size: 0.8rem; } }
+        @media (max-width: 600px) { h1 { font-size: 2rem; } .stage-grid { grid-template-columns: 1fr; } .vr-button { padding: 8px 15px; font-size: 0.8rem; } }
     </style>
 </head>
 <body>
     <div class="container">
         
         <h1>🏆 LA DINASTÍA 🏆</h1>
-        <div class="subtitle">El Camino a la Gloria Eterna · Táctica, Pasión y Leyenda</div>
+        <div class="subtitle" id="subtitle">El Camino a la Gloria Eterna · Táctica, Pasión y Leyenda</div>
 
-        <!-- SECCIÓN DE NOTICIAS AUTOMÁTICAS -->
-        <div class="news-section">
-            <div class="news-header">
-                <h3>⚡ ÚLTIMAS NOTICIAS DEL FÚTBOL MUNDIAL ⚡</h3>
-                <span class="update-badge" id="newsStatus">📡 Actualizando...</span>
-            </div>
-            <div id="newsContainer" class="news-grid">
-                <div style="text-align:center; padding:20px;">Cargando noticias...</div>
-            </div>
-        </div>
-
-        <div class="stage-grid">
-            <div class="stage-card"><h2>1. La Fundación</h2><p>Construir desde la defensa. El primer trofeo llega con orden.</p></div>
-            <div class="stage-card"><h2>2. La Consolidación</h2><p>Dominar el mediocampo. Ser dueños del partido.</p></div>
-            <div class="stage-card"><h2>3. La Dinastía</h2><p>Mística de club. Los jugadores sienten la camiseta.</p></div>
-            <div class="stage-card"><h2>4. La Leyenda</h2><p>Ganar copas con autoridad. Sello histórico.</p></div>
+        <div class="stage-grid" id="stageGrid">
+            <!-- Las etapas se generarán automáticamente desde JavaScript -->
         </div>
 
         <div class="oracle-section">
@@ -93,10 +67,10 @@
                 <h3>🧠 Oráculo Táctico</h3>
                 <span class="ai-badge" id="iaStatus">🔍 Conectando IA...</span>
             </div>
-            <p style="margin-bottom:15px; color:#b0c4de; font-size:0.9rem;"><i>⚽ Pregúntale al estratega. Respuestas con ADN futbolero. ⚽</i></p>
+            <p style="margin-bottom:15px; color:#b0c4de; font-size:0.9rem;" id="fraseDelDia"><i>⚽ El oráculo tiene un consejo para hoy... ⚽</i></p>
             <div id="chat-area">
                 <div class="message ia-msg">
-                    <div class="msg-bubble">🏛️ ¡Bienvenido, técnico! Soy tu oráculo futbolero. Pregúntame de táctica, presión alta, doble pivote, delantero centro o cómo ganar copas. ¡Dale, nomás!</div>
+                    <div class="msg-bubble" id="mensajeBienvenida">🏛️ ¡Bienvenido, técnico! Soy tu oráculo futbolero. Pregúntame de táctica, presión alta, doble pivote, delantero centro o cómo ganar copas. ¡Dale, nomás!</div>
                 </div>
             </div>
             <div class="input-group">
@@ -105,7 +79,7 @@
             </div>
         </div>
         
-        <footer>⚡ El verdadero legado se forja en las finales. La gloria espera a los valientes. ⚡</footer>
+        <footer id="footer">⚡ El verdadero legado se forja en las finales. La gloria espera a los valientes. ⚡</footer>
     </div>
 
     <button class="vr-button" id="vrModeBtn">🔮 VISIÓN ÉPICA (MUNDO VR)</button>
@@ -116,15 +90,128 @@
 
     <script>
         // ============================================
-        // CONFIGURACIÓN - ACTUALIZACIÓN AUTOMÁTICA
+        // ACTUALIZACIÓN AUTOMÁTICA DE CONTENIDO DIARIO
         // ============================================
         
-        // API Key de Groq
-        const GROQ_API_KEY = "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";
+        function generarContenidoDelDia() {
+            const hoy = new Date();
+            const diaSemana = hoy.getDay(); // 0=Domingo, 1=Lunes, etc.
+            const diaMes = hoy.getDate();
+            const mes = hoy.getMonth();
+            
+            // Contenido VARIABLE según el día de la semana
+            const etapasPorDia = {
+                0: [ // Domingo - Finales
+                    { titulo: "1. La Final Soñada", descripcion: "Domingo de definición. Los grandes aparecen en las finales." },
+                    { titulo: "2. El ADN Campeón", descripcio: "No se negocia. Salir a ganar desde el vestuario." },
+                    { titulo: "3. Gestión de la Presión", descripcion: "Los penales se ganan en la cabeza. Respiración y fe." },
+                    { titulo: "4. La Gloria Eterna", descripcion: "Levantar la copa. Eso queda para siempre." }
+                ],
+                1: [ // Lunes - Análisis post-partido
+                    { titulo: "1. Revisión Táctica", descripcion: "Analizar errores. Corregir sin castigar." },
+                    { titulo: "2. Fortaleza Mental", descripcion: "El lunes se construye el próximo triunfo." },
+                    { titulo: "3. Rotación Inteligente", descripcion: "Dosificante los que más corrieron." },
+                    { titulo: "4. Proyección", descripcion: "Mirar al próximo rival. La ventaja es la preparación." }
+                ],
+                2: [ // Martes - Entrenamiento físico
+                    { titulo: "1. Pretemporada Virtual", descripcion: "Ganar condición. El fútbol moderno exige físico." },
+                    { titulo: "2. Trabajo en Bloque", descripcion: "Presión tras pérdida. Recuperación en 5 segundos." },
+                    { titulo: "3. Definición", descripcion: "Ejercicios de finalización. El gol es arte." },
+                    { titulo: "4. Unión grupal", descripcion: "Team building. Un equipo unido es imparable." }
+                ],
+                3: [ // Miércoles - Táctica avanzada
+                    { titulo: "1. Estudio de Rival", descripcion: "Ver videos. Encontrar debilidades." },
+                    { titulo: "2. Sistema de Juego", descripcion: "¿3-4-3 o 4-3-3? Depende del rival." },
+                    { titulo: "3. Balón Parado", descripcion: "Los partidos se ganan en las esquinas y tiros libres." },
+                    { titulo: "4. Transiciones", descripcion: "Defensa-ataque en 3 pases. Eficiencia máxima." }
+                ],
+                4: [ // Jueves - Motivación
+                    { titulo: "1. Charla Inspiradora", descripcion: "Recordar por qué juegan. Pasión por la camiseta." },
+                    { titulo: "2. Líderes en Cancha", descripcion: "El capitán debe hablar. Voz de mando." },
+                    { titulo: "3. Hinchada como plus", descripcion: "Jugar con el alma. El público empuja." },
+                    { titulo: "4. Mística", descripcion: "Creer. La fe mueve montañas en el fútbol." }
+                ],
+                5: [ // Viernes - Previas del fin de semana
+                    { titulo: "1. Concentración", descripcion: "Viernes de foco. Desconexión total." },
+                    { titulo: "2. Último Entreno", descripcion: "Afinar lo táctico. No arriesgar lesionados." },
+                    { titulo: "3. El Once Ideal", descripcion: "Decisión del técnico. Los mejores tienen que estar." },
+                    { titulo: "4. Declaraciones", descripcion: "Hablar en cancha, no en micrófonos." }
+                ],
+                6: [ // Sábado - Día de partido
+                    { titulo: "1. Activación", descripcion: "Sábado de guerra. Calentamiento intenso." },
+                    { titulo: "2. Salida al Campo", descripcion: "Sentir la cancha. Oler el césped." },
+                    { titulo: "3. Primer Tiempo", descripcion: "No regalar nada. Concentración absoluta." },
+                    { titulo: "4. Segundo Tiempo", descripcion: "Si toca sufrir, sufrir. La épica nace ahí." }
+                ]
+            };
+            
+            // Frases del día según el día de la semana
+            const frasesDelDia = [
+                "⚽ Los domingos son de gloria. Los campeones nacen en finales.",
+                "📊 Lunes de análisis. Los errores de ayer son aprendizajes para hoy.",
+                "💪 Martes de piernas fuertes. El físico gana partidos.",
+                "🧠 Miércoles táctico. El que mejor estudia, gana.",
+                "🔥 Jueves de corazón. La pasión supera cualquier táctica.",
+                "🎯 Viernes de definición. Se eligen los once guerreros.",
+                "🏟️ Sábado de partido. A la cancha a demostrar quién manda."
+            ];
+            
+            // Subtítulos variables
+            const subtitulos = [
+                "La Dinastía que construye imperios con fútbol y alma.",
+                "Donde las leyendas nacen y los débiles desaparecen.",
+                "Táctica, fuerza y mística. El tridente del campeón.",
+                "Cada día una batalla. Cada batalla una lección.",
+                "El fútbol no espera. Entrena, mejora, conquista."
+            ];
+            
+            const etapas = etapasPorDia[diaSemana] || etapasPorDia[1];
+            const frase = frasesDelDia[diaSemana];
+            const subtitulo = subtitulos[diaMes % subtitulos.length];
+            const mensajeBienvenidaVariado = `🏛️ ${frase} Soy tu oráculo. ¿Qué necesitas, campeón?`;
+            
+            return { etapas, frase, subtitulo, mensajeBienvenidaVariado };
+        }
+        
+        function actualizarContenidoDiario() {
+            const contenido = generarContenidoDelDia();
+            
+            // Actualizar subtítulo
+            document.getElementById('subtitle').innerHTML = contenido.subtitulo;
+            
+            // Actualizar frase del día
+            document.getElementById('fraseDelDia').innerHTML = `⚽ ${contenido.frase} ⚽`;
+            
+            // Actualizar mensaje de bienvenida del chat
+            const bienvenidaDiv = document.getElementById('mensajeBienvenida');
+            if (bienvenidaDiv) {
+                bienvenidaDiv.innerHTML = contenido.mensajeBienvenidaVariado;
+            }
+            
+            // Actualizar las etapas (tarjetas)
+            const stageGrid = document.getElementById('stageGrid');
+            stageGrid.innerHTML = contenido.etapas.map(etapa => `
+                <div class="stage-card">
+                    <h2>${etapa.titulo}</h2>
+                    <p>${etapa.descripcion}</p>
+                </div>
+            `).join('');
+            
+            // Actualizar footer con dato del día
+            const hoy = new Date();
+            const opcionesFecha = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const fechaStr = hoy.toLocaleDateString('es-ES', opcionesFecha);
+            document.getElementById('footer').innerHTML = `⚡ ${fechaStr} · El legado se construye día a día. ⚡`;
+        }
+        
+        // ============================================
+        // CHAT CON IA (GROQ) - SIN CAMBIOS, FUNCIONA SIEMPRE
+        // ============================================
+        
+        const GROQ_API_KEY = "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";
         const GROQ_URL = "https://api.groq.com/openai/v1/chat/completions";
         const MODEL = "llama-3.3-70b-versatile";
         
-        // Límite de consultas
         const limite = {
             get hoy() { return new Date().toDateString(); },
             get usadas() { 
@@ -137,105 +224,6 @@
                 localStorage.setItem('consultas_oraculo', this.usadas + 1);
             }
         };
-        
-        // ============================================
-        // NOTICIAS AUTOMÁTICAS DESDE RSS
-        // ============================================
-        
-        const rssFuentes = [
-            { nombre: "Marca", url: "https://e00-marca.uecdn.es/rss/futbol.xml", categoria: "futbol" },
-            { nombre: "AS", url: "https://as.com/rss/futbol.xml", categoria: "futbol" },
-            { nombre: "ESPN", url: "https://www.espn.com/espn/rss/football/news", categoria: "futbol" },
-            { nombre: "Sport", url: "https://www.sport.es/rss/futbol.xml", categoria: "futbol" }
-        ];
-        
-        async function obtenerNoticiasFutbol() {
-            const todas = [];
-            const proxy = "https://api.rss2json.com/v1/api.json?rss_url=";
-            
-            for (const fuente of rssFuentes) {
-                try {
-                    const response = await fetch(proxy + encodeURIComponent(fuente.url));
-                    const data = await response.json();
-                    
-                    if (data.status === "ok" && data.items) {
-                        for (let item of data.items.slice(0, 3)) {
-                            todas.push({
-                                id: `news_${Date.now()}_${Math.random()}`,
-                                titulo: item.title,
-                                resumen: (item.description || item.content || "").substring(0, 120) + "...",
-                                contenido: item.description || item.content || "",
-                                fuente: fuente.nombre,
-                                fecha: new Date(item.pubDate).toLocaleDateString('es-ES'),
-                                url: item.link
-                            });
-                        }
-                    }
-                } catch (error) {
-                    console.log(`Error en ${fuente.nombre}:`, error);
-                }
-            }
-            
-            // Si no hay noticias, usar respaldo
-            if (todas.length === 0) {
-                return obtenerNoticiasRespaldo();
-            }
-            
-            // Mezclar y devolver top 8
-            return todas.sort(() => Math.random() - 0.5).slice(0, 8);
-        }
-        
-        function obtenerNoticiasRespaldo() {
-            return [
-                { titulo: "¡Bombazo! El Real Madrid negocia por la estrella del City", resumen: "Las conversaciones estarían avanzadas para el próximo mercado.", fuente: "Marca", fecha: new Date().toLocaleDateString('es-ES') },
-                { titulo: "El Barcelona busca refuerzos para la próxima temporada", resumen: "Deco ya tiene una lista de objetivos prioritarios.", fuente: "Sport", fecha: new Date().toLocaleDateString('es-ES') },
-                { titulo: "Premier League: ¿Quién será el campeón esta temporada?", resumen: "City y Arsenal disputan el título punto a punto.", fuente: "ESPN", fecha: new Date().toLocaleDateString('es-ES') },
-                { titulo: "La Champions League define sus semifinalistas", resumen: "Los octavos dejan enormes sorpresas en el torneo.", fuente: "AS", fecha: new Date().toLocaleDateString('es-ES') }
-            ];
-        }
-        
-        async function actualizarNoticias() {
-            const newsContainer = document.getElementById('newsContainer');
-            const newsStatus = document.getElementById('newsStatus');
-            
-            newsStatus.innerHTML = "📡 Buscando noticias...";
-            newsStatus.style.color = "#fbbf24";
-            
-            const noticias = await obtenerNoticiasFutbol();
-            
-            // Guardar en localStorage para el día
-            const hoy = new Date().toDateString();
-            localStorage.setItem('noticias_futbol', JSON.stringify(noticias));
-            localStorage.setItem('fecha_noticias_futbol', hoy);
-            
-            renderizarNoticias(noticias);
-            newsStatus.innerHTML = `✅ ${noticias.length} noticias actualizadas`;
-            newsStatus.style.color = "#10b981";
-        }
-        
-        function renderizarNoticias(noticias) {
-            const container = document.getElementById('newsContainer');
-            
-            if (!noticias || noticias.length === 0) {
-                container.innerHTML = '<div style="text-align:center; padding:20px;">⚽ No hay noticias en este momento</div>';
-                return;
-            }
-            
-            container.innerHTML = noticias.map(noticia => `
-                <div class="news-card" onclick="window.open('${noticia.url || '#'}', '_blank')">
-                    <div class="news-title">⚽ ${escapeHtml(noticia.titulo.substring(0, 80))}${noticia.titulo.length > 80 ? '...' : ''}</div>
-                    <div class="news-summary">${escapeHtml(noticia.resumen || noticia.contenido?.substring(0, 100) || '')}</div>
-                    <div class="news-meta">
-                        <span>📰 ${escapeHtml(noticia.fuente)}</span>
-                        <span>📅 ${noticia.fecha}</span>
-                    </div>
-                </div>
-            `).join('');
-        }
-        
-        // ============================================
-        // CHAT CON IA (GROQ)
-        // ============================================
         
         const chatArea = document.getElementById('chat-area');
         const userInput = document.getElementById('userInput');
@@ -337,6 +325,9 @@
                 respuesta = getRespuestaBackup();
                 iaStatusSpan.innerHTML = "⚠️ Sabiduría ancestral";
                 iaStatusSpan.style.color = "#fbbf24";
+            } else {
+                iaStatusSpan.innerHTML = "✅ IA conectada (Groq)";
+                iaStatusSpan.style.color = "#10b981";
             }
             
             addMessage(respuesta, false);
@@ -348,35 +339,19 @@
         userInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') handleSend(); });
         
         // ============================================
-        // INICIALIZACIÓN - ACTUALIZACIÓN AUTOMÁTICA DIARIA
+        // INICIALIZACIÓN - TODO SE ACTUALIZA SOLO
         // ============================================
         
-        async function init() {
-            const hoy = new Date().toDateString();
-            const noticiasGuardadas = localStorage.getItem('noticias_futbol');
-            const fechaGuardada = localStorage.getItem('fecha_noticias_futbol');
-            
-            // Cargar noticias (nuevas si cambió el día)
-            if (noticiasGuardadas && fechaGuardada === hoy) {
-                renderizarNoticias(JSON.parse(noticiasGuardadas));
-                document.getElementById('newsStatus').innerHTML = `✅ Noticias del día ${hoy}`;
-            } else {
-                await actualizarNoticias();
-            }
-            
-            // IA lista
+        function iniciar() {
+            actualizarContenidoDiario();
             iaStatusSpan.innerHTML = "✅ IA lista";
             iaStatusSpan.style.color = "#10b981";
+            
+            // Opcional: mostrar la fecha de hoy en consola
+            console.log("📅 Contenido actualizado para:", new Date().toLocaleDateString('es-ES'));
         }
         
-        init();
-        
-        function escapeHtml(text) {
-            if (!text) return '';
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
-        }
+        iniciar();
     </script>
 
     <!-- Three.js para MODO VR -->
@@ -434,7 +409,6 @@
             field.receiveShadow = true;
             scene.add(field);
             
-            // Agregar un escudo/dinastía flotante
             const canvas = document.createElement('canvas');
             canvas.width = 512;
             canvas.height = 512;
@@ -494,17 +468,14 @@
     <!-- PUBLICIDAD -->
     <!-- ============================================ -->
     
-    <!-- PopAds -->
     <script type="text/javascript" data-cfasync="false">
     /*<![CDATA[/* */
     (function(){var y=window,j="fd00ec802f889d01aba4b20343501917",o=[["siteId",230+597-856*111+5387265],["minBid",0],["popundersPerIP","0"],["delayBetween",0],["default",false],["defaultPerDay",0],["topmostLayer","auto"]],q=["d3d3LmJsb2NrYWRzbm90LmNvbS9IZFZaWi9uanN4Z3JhcGhjb3JlLmpz","ZG5oZmk1bm4yZHQ2Ny5jbG91ZGZyb250Lm5ldC9OTVRISS9oL3Jwb3BwZXIubWluLmNzcw=="],n=-1,l,k,z=function(){clearTimeout(k);n++;if(q[n]&&!(1802736393000<(new Date).getTime()&&1<n)){l=y.document.createElement("script");l.type="text/javascript";l.async=!0;var f=y.document.getElementsByTagName("script")[0];l.src="https://"+atob(q[n]);l.crossOrigin="anonymous";l.onerror=z;l.onload=function(){clearTimeout(k);y[j.slice(0,16)+j.slice(0,16)]||z()};k=setTimeout(z,5E3);f.parentNode.insertBefore(l,f)}};if(!y[j]){try{Object.freeze(y[j]=o)}catch(e){}z()}})();
     /*]]>/* */
     </script>
     
-    <!-- Adsterra -->
     <script src="https://pl29137063.profitablecpmratenetwork.com/61/2f/c0/612fc0895a4d18ef5b58ae13c6940b8d.js"></script>
     
-    <!-- HilltopAds -->
     <script>
     (function(lba){
     var d = document,
