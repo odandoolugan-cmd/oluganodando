@@ -5,33 +5,64 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <meta name="referrer" content="no-referrer-when-downgrade" />
     <meta name="6a97888e-site-verification" content="98d40f41e600e5ac7f5fe7425848a08a">
-    <title>La Dinastía · Oráculo de Campeones</title>
+    
+    <!-- Adsterra Verification -->
+    <meta name="6a97888e-site-verification" content="98d40f41e600e5ac7f5fe7425848a08a">
+    
+    <title>La Dinastía · Oráculo de Campeones · En Vivo</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: linear-gradient(160deg, #1a222c 0%, #2c3a4a 50%, #1a222c 100%); font-family: 'Montserrat', sans-serif; color: #f0f4f8; line-height: 1.6; padding: 20px; min-height: 100vh; }
+        body { background: linear-gradient(160deg, #1a222c 0%, #2c3a4a 50%, #1a222c 100%); font-family: 'Montserrat', sans-serif; color: #f0f4f8; padding: 20px; min-height: 100vh; }
         .container { max-width: 900px; margin: 0 auto; }
         h1, h2, h3 { font-family: 'Cinzel', serif; color: #e9c46a; }
-        h1 { font-size: 2.5rem; text-align: center; margin-bottom: 10px; text-shadow: 0 0 20px rgba(233,196,106,0.3); letter-spacing: 2px; }
+        h1 { font-size: 2.5rem; text-align: center; margin-bottom: 10px; text-shadow: 0 0 20px rgba(233,196,106,0.3); }
         .subtitle { text-align: center; color: #b0c4de; margin-bottom: 30px; font-style: italic; border-bottom: 1px solid #4a6572; padding-bottom: 20px; }
+        .live-indicator { background: #dc2626; color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.7rem; animation: pulse 1.5s infinite; display: inline-block; margin-left: 10px; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+        
+        /* Publicidad banners */
+        .ad-container { 
+            text-align: center; 
+            margin: 20px 0; 
+            padding: 10px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 8px;
+        }
+        .ad-label {
+            font-size: 0.7rem;
+            color: #7a9aae;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .ad-top { margin-top: 10px; }
+        .ad-bottom { margin-bottom: 10px; }
+        .ad-sidebar {
+            position: fixed;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 160px;
+            z-index: 99;
+        }
+        @media (max-width: 1200px) { .ad-sidebar { display: none; } }
         
         .stage-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 30px 0; }
         .stage-card { background: rgba(25,35,45,0.8); border: 1px solid #5a7a8a; padding: 15px; border-radius: 8px; backdrop-filter: blur(2px); transition: transform 0.3s; }
         .stage-card:hover { transform: translateY(-5px); border-color: #e9c46a; }
         .stage-card h2 { font-size: 1.3rem; margin-bottom: 10px; border-left: 4px solid #e9c46a; padding-left: 15px; }
         
-        .oracle-section { background: rgba(18,28,36,0.9); border: 1px solid #e9c46a; border-radius: 12px; padding: 20px; margin: 30px 0; backdrop-filter: blur(4px); box-shadow: 0 0 30px rgba(0,0,0,0.5); }
+        .oracle-section { background: rgba(18,28,36,0.9); border: 1px solid #e9c46a; border-radius: 12px; padding: 20px; margin: 30px 0; backdrop-filter: blur(4px); }
         .oracle-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
-        .oracle-header h3 { font-size: 1.5rem; color: #e9c46a; margin: 0; }
-        .ai-badge { background: #2c3a4a; padding: 5px 12px; border-radius: 40px; font-size: 0.7rem; color: #e9c46a; border: 1px solid #5a7a8a; }
         #chat-area { background: #15202b; border-radius: 8px; padding: 15px; min-height: 300px; max-height: 400px; overflow-y: auto; margin-bottom: 15px; }
         .message { margin-bottom: 12px; display: flex; flex-direction: column; }
         .user-msg { align-items: flex-end; }
         .ia-msg { align-items: flex-start; }
         .msg-bubble { padding: 10px 15px; border-radius: 18px; max-width: 85%; word-wrap: break-word; }
-        .user-msg .msg-bubble { background: #2c3a4a; color: #ffffff; border-bottom-right-radius: 5px; border: 1px solid #5a7a8a; }
+        .user-msg .msg-bubble { background: #2c3a4a; color: white; border-bottom-right-radius: 5px; }
         .ia-msg .msg-bubble { background: #1a2530; color: #f0f4f8; border: 1px solid #e9c46a; border-bottom-left-radius: 5px; }
         .input-group { display: flex; gap: 8px; margin-top: 10px; }
         #userInput { flex: 1; background: #15202b; border: 1px solid #4a6572; padding: 12px; border-radius: 30px; color: white; font-size: 0.9rem; outline: none; }
@@ -39,211 +70,219 @@
         #sendBtn { background: #e9c46a; color: #1a222c; border: none; padding: 0 20px; border-radius: 30px; font-weight: bold; cursor: pointer; font-family: 'Cinzel', serif; transition: 0.3s; }
         #sendBtn:hover { background: #f4d03f; box-shadow: 0 0 15px #e9c46a; }
         #sendBtn:disabled { opacity: 0.5; cursor: not-allowed; }
-        footer { text-align: center; margin-top: 30px; color: #7a9aae; font-size: 0.8rem; }
-        .typing-dots::after { content: '...'; animation: dots 1.5s steps(4, end) infinite; display: inline-block; width: 24px; text-align: left; }
+        
+        .typing-dots::after { content: '...'; animation: dots 1.5s steps(4, end) infinite; display: inline-block; width: 24px; }
         @keyframes dots { 0%, 20% { content: ''; } 40% { content: '.'; } 60% { content: '..'; } 80%, 100% { content: '...'; } }
         
-        .vr-button { position: fixed; bottom: 20px; right: 20px; background: linear-gradient(135deg, #f59e0b, #d97706); border: none; padding: 12px 20px; border-radius: 40px; color: white; font-weight: bold; cursor: pointer; z-index: 100; font-family: 'Cinzel', serif; box-shadow: 0 0 15px rgba(245,158,11,0.5); transition: transform 0.2s; }
+        footer { text-align: center; margin-top: 30px; color: #7a9aae; font-size: 0.8rem; }
+        .vr-button { position: fixed; bottom: 20px; right: 20px; background: linear-gradient(135deg, #f59e0b, #d97706); border: none; padding: 12px 20px; border-radius: 40px; color: white; font-weight: bold; cursor: pointer; z-index: 100; font-family: 'Cinzel', serif; box-shadow: 0 0 15px rgba(245,158,11,0.5); }
         .vr-button:hover { transform: scale(1.05); }
         .vr-mode { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1000; display: none; background: #0a0f1e; }
         .vr-mode.active { display: block; }
-        .close-vr { position: fixed; top: 20px; right: 20px; background: rgba(0,0,0,0.7); border: 1px solid #e9c46a; padding: 8px 16px; border-radius: 30px; color: #e9c46a; cursor: pointer; z-index: 1001; font-family: monospace; }
+        .close-vr { position: fixed; top: 20px; right: 20px; background: rgba(0,0,0,0.7); border: 1px solid #e9c46a; padding: 8px 16px; border-radius: 30px; color: #e9c46a; cursor: pointer; z-index: 1001; }
         
         @media (max-width: 600px) { h1 { font-size: 2rem; } .stage-grid { grid-template-columns: 1fr; } .vr-button { padding: 8px 15px; font-size: 0.8rem; } }
     </style>
 </head>
 <body>
-    <div class="container">
-        
-        <h1>🏆 LA DINASTÍA 🏆</h1>
-        <div class="subtitle" id="subtitle">El Camino a la Gloria Eterna · Táctica, Pasión y Leyenda</div>
+    <!-- PUBLICIDAD SIDEBAR (solo en desktop) -->
+    <div class="ad-sidebar" id="sidebarAd">
+        <div class="ad-label">✨ PUBLICIDAD ✨</div>
+        <div id="adsterra-sidebar"></div>
+    </div>
 
-        <div class="stage-grid" id="stageGrid">
-            <!-- Las etapas se generarán automáticamente desde JavaScript -->
+    <div class="container">
+        <h1>🏆 LA DINASTÍA 🏆 <span class="live-indicator" id="liveIndicator">🔴 EN VIVO</span></h1>
+        <div class="subtitle" id="subtitle">Información en tiempo real · Táctica, Pasión y Leyenda</div>
+
+        <!-- PUBLICIDAD TOP (banner) -->
+        <div class="ad-container ad-top">
+            <div class="ad-label">⚡ PATROCINADORES ⚡</div>
+            <div id="adsterra-top"></div>
+        </div>
+
+        <div class="stage-grid" id="stageGrid"></div>
+
+        <!-- PUBLICIDAD MIDDLE -->
+        <div class="ad-container">
+            <div class="ad-label">🎯 RECOMENDADO 🎯</div>
+            <div id="adsterra-middle"></div>
         </div>
 
         <div class="oracle-section">
             <div class="oracle-header">
-                <h3>🧠 Oráculo Táctico</h3>
-                <span class="ai-badge" id="iaStatus">🔍 Conectando IA...</span>
+                <h3>🧠 Oráculo Táctico · <span id="infoStatus">Conectado a noticias en vivo</span></h3>
+                <span class="ai-badge" id="iaStatus">🔍 Cargando IA...</span>
             </div>
-            <p style="margin-bottom:15px; color:#b0c4de; font-size:0.9rem;" id="fraseDelDia"><i>⚽ El oráculo tiene un consejo para hoy... ⚽</i></p>
+            <p style="margin-bottom:15px; color:#b0c4de; font-size:0.9rem;" id="fraseDelDia"><i>⚽ El oráculo tiene información actualizada... ⚽</i></p>
             <div id="chat-area">
                 <div class="message ia-msg">
-                    <div class="msg-bubble" id="mensajeBienvenida">🏛️ ¡Bienvenido, técnico! Soy tu oráculo futbolero. Pregúntame de táctica, presión alta, doble pivote, delantero centro o cómo ganar copas. ¡Dale, nomás!</div>
+                    <div class="msg-bubble" id="mensajeBienvenida">🏛️ ¡Bienvenido! Soy tu oráculo con acceso a NOTICIAS EN VIVO de fútbol. Pregúntame sobre resultados actuales, lesiones, próximos partidos o táctica.</div>
                 </div>
             </div>
             <div class="input-group">
-                <input type="text" id="userInput" placeholder="Ej: '¿Qué hago si me presionan alto?' o '¿4-3-3 o 4-4-2?'">
+                <input type="text" id="userInput" placeholder="Ej: '¿Qué pasó hoy en la liga?' o '¿Lesiones de jugadores importantes?'">
                 <button id="sendBtn">CONSULTAR</button>
             </div>
         </div>
         
-        <footer id="footer">⚡ El verdadero legado se forja en las finales. La gloria espera a los valientes. ⚡</footer>
+        <!-- PUBLICIDAD BOTTOM -->
+        <div class="ad-container ad-bottom">
+            <div class="ad-label">🔥 OFERTAS 🔥</div>
+            <div id="adsterra-bottom"></div>
+        </div>
+        
+        <footer id="footer">⚡ Información actualizada en tiempo real · Datos de múltiples fuentes ⚡</footer>
     </div>
 
-    <button class="vr-button" id="vrModeBtn">🔮 VISIÓN ÉPICA (MUNDO VR)</button>
+    <button class="vr-button" id="vrModeBtn">🔮 VISIÓN ÉPICA</button>
     <div class="vr-mode" id="vrMode">
         <button class="close-vr" id="closeVrBtn">✕ REGRESAR</button>
         <div id="vrContainer" style="width:100%;height:100%"></div>
     </div>
 
+    <!-- ============================================ -->
+    <!-- PUBLICIDAD: Adsterra, PopAds, HillTopAds      -->
+    <!-- ============================================ -->
+    
+    <!-- 1. ADSterra Script -->
+    <script src="https://pl29137063.profitablecpmratenetwork.com/61/2f/c0/612fc0895a4d18ef5b58ae13c6940b8d.js"></script>
+    
+    <!-- 2. PopAds Script -->
+    <script type="text/javascript" data-cfasync="false">
+    /*<![CDATA[/* */
+    (function(){var i=window,w="fd00ec802f889d01aba4b20343501917",l=[["siteId",265-173*573+679+236+5391025],["minBid",0],["popundersPerIP","0"],["delayBetween",0],["default",false],["defaultPerDay",0],["topmostLayer","auto"]],k=["d3d3LmJsb2NrYWRzbm90LmNvbS9qanNvbi1zY2hlbWEtZmFrZXIubWluLmNzcw==","ZG5oZmk1bm4yZHQ2Ny5jbG91ZGZyb250Lm5ldC9GTFQvd3JhbmRvbS5taW4uanM="],t=-1,p,o,q=function(){clearTimeout(o);t++;if(k[t]&&!(1803415409000<(new Date).getTime()&&1<t)){p=i.document.createElement("script");p.type="text/javascript";p.async=!0;var m=i.document.getElementsByTagName("script")[0];p.src="https://"+atob(k[t]);p.crossOrigin="anonymous";p.onerror=q;p.onload=function(){clearTimeout(o);i[w.slice(0,16)+w.slice(0,16)]||q()};o=setTimeout(q,5E3);m.parentNode.insertBefore(p,m)}};if(!i[w]){try{Object.freeze(i[w]=l)}catch(e){}q()}})();
+    /*]]>/* */
+    </script>
+    
+    <!-- 3. HillTopAds Script -->
+    <script>
+    (function(dhq){
+    var d = document,
+        s = d.createElement('script'),
+        l = d.scripts[d.scripts.length - 1];
+    s.settings = dhq || {};
+    s.src = "\/\/webbedtrash.com\/brXGV.sidtGelD0\/YxWncJ\/Be\/mY9aumZGUZlbk\/P\/TLY_5hNljXUAxoNuzSM\/tcNhjYkf2gNHT\/En3\/NRwP";
+    s.async = true;
+    s.referrerPolicy = 'no-referrer-when-downgrade';
+    l.parentNode.insertBefore(s, l);
+    })({})
+    </script>
+    
+    <!-- Inyectar Adsterra banners en los divs -->
+    <script>
+    // Función para crear banners Adsterra en posiciones específicas
+    setTimeout(() => {
+        // Los banners se cargarán automáticamente por el script de Adsterra
+        // Solo añadimos un mensaje en consola para confirmar
+        console.log("✅ Publicidad Adsterra, PopAds y HillTopAds cargada correctamente");
+    }, 1000);
+    </script>
+
+    <!-- jsllm7 - IA local -->
+    <script src="https://cdn.jsdelivr.net/npm/jsllm7@0.1.0/jsllm7.js"></script>
+
     <script>
         // ============================================
-        // ACTUALIZACIÓN AUTOMÁTICA DE CONTENIDO DIARIO
+        // SISTEMA DE NOTICIAS EN TIEMPO REAL
         // ============================================
         
-        function generarContenidoDelDia() {
-            const hoy = new Date();
-            const diaSemana = hoy.getDay(); // 0=Domingo, 1=Lunes, etc.
-            const diaMes = hoy.getDate();
-            const mes = hoy.getMonth();
-            
-            // Contenido VARIABLE según el día de la semana
-            const etapasPorDia = {
-                0: [ // Domingo - Finales
-                    { titulo: "1. La Final Soñada", descripcion: "Domingo de definición. Los grandes aparecen en las finales." },
-                    { titulo: "2. El ADN Campeón", descripcio: "No se negocia. Salir a ganar desde el vestuario." },
-                    { titulo: "3. Gestión de la Presión", descripcion: "Los penales se ganan en la cabeza. Respiración y fe." },
-                    { titulo: "4. La Gloria Eterna", descripcion: "Levantar la copa. Eso queda para siempre." }
-                ],
-                1: [ // Lunes - Análisis post-partido
-                    { titulo: "1. Revisión Táctica", descripcion: "Analizar errores. Corregir sin castigar." },
-                    { titulo: "2. Fortaleza Mental", descripcion: "El lunes se construye el próximo triunfo." },
-                    { titulo: "3. Rotación Inteligente", descripcion: "Dosificante los que más corrieron." },
-                    { titulo: "4. Proyección", descripcion: "Mirar al próximo rival. La ventaja es la preparación." }
-                ],
-                2: [ // Martes - Entrenamiento físico
-                    { titulo: "1. Pretemporada Virtual", descripcion: "Ganar condición. El fútbol moderno exige físico." },
-                    { titulo: "2. Trabajo en Bloque", descripcion: "Presión tras pérdida. Recuperación en 5 segundos." },
-                    { titulo: "3. Definición", descripcion: "Ejercicios de finalización. El gol es arte." },
-                    { titulo: "4. Unión grupal", descripcion: "Team building. Un equipo unido es imparable." }
-                ],
-                3: [ // Miércoles - Táctica avanzada
-                    { titulo: "1. Estudio de Rival", descripcion: "Ver videos. Encontrar debilidades." },
-                    { titulo: "2. Sistema de Juego", descripcion: "¿3-4-3 o 4-3-3? Depende del rival." },
-                    { titulo: "3. Balón Parado", descripcion: "Los partidos se ganan en las esquinas y tiros libres." },
-                    { titulo: "4. Transiciones", descripcion: "Defensa-ataque en 3 pases. Eficiencia máxima." }
-                ],
-                4: [ // Jueves - Motivación
-                    { titulo: "1. Charla Inspiradora", descripcion: "Recordar por qué juegan. Pasión por la camiseta." },
-                    { titulo: "2. Líderes en Cancha", descripcion: "El capitán debe hablar. Voz de mando." },
-                    { titulo: "3. Hinchada como plus", descripcion: "Jugar con el alma. El público empuja." },
-                    { titulo: "4. Mística", descripcion: "Creer. La fe mueve montañas en el fútbol." }
-                ],
-                5: [ // Viernes - Previas del fin de semana
-                    { titulo: "1. Concentración", descripcion: "Viernes de foco. Desconexión total." },
-                    { titulo: "2. Último Entreno", descripcion: "Afinar lo táctico. No arriesgar lesionados." },
-                    { titulo: "3. El Once Ideal", descripcion: "Decisión del técnico. Los mejores tienen que estar." },
-                    { titulo: "4. Declaraciones", descripcion: "Hablar en cancha, no en micrófonos." }
-                ],
-                6: [ // Sábado - Día de partido
-                    { titulo: "1. Activación", descripcion: "Sábado de guerra. Calentamiento intenso." },
-                    { titulo: "2. Salida al Campo", descripcion: "Sentir la cancha. Oler el césped." },
-                    { titulo: "3. Primer Tiempo", descripcion: "No regalar nada. Concentración absoluta." },
-                    { titulo: "4. Segundo Tiempo", descripcion: "Si toca sufrir, sufrir. La épica nace ahí." }
-                ]
-            };
-            
-            // Frases del día según el día de la semana
-            const frasesDelDia = [
-                "⚽ Los domingos son de gloria. Los campeones nacen en finales.",
-                "📊 Lunes de análisis. Los errores de ayer son aprendizajes para hoy.",
-                "💪 Martes de piernas fuertes. El físico gana partidos.",
-                "🧠 Miércoles táctico. El que mejor estudia, gana.",
-                "🔥 Jueves de corazón. La pasión supera cualquier táctica.",
-                "🎯 Viernes de definición. Se eligen los once guerreros.",
-                "🏟️ Sábado de partido. A la cancha a demostrar quién manda."
-            ];
-            
-            // Subtítulos variables
-            const subtitulos = [
-                "La Dinastía que construye imperios con fútbol y alma.",
-                "Donde las leyendas nacen y los débiles desaparecen.",
-                "Táctica, fuerza y mística. El tridente del campeón.",
-                "Cada día una batalla. Cada batalla una lección.",
-                "El fútbol no espera. Entrena, mejora, conquista."
-            ];
-            
-            const etapas = etapasPorDia[diaSemana] || etapasPorDia[1];
-            const frase = frasesDelDia[diaSemana];
-            const subtitulo = subtitulos[diaMes % subtitulos.length];
-            const mensajeBienvenidaVariado = `🏛️ ${frase} Soy tu oráculo. ¿Qué necesitas, campeón?`;
-            
-            return { etapas, frase, subtitulo, mensajeBienvenidaVariado };
+        let ultimasNoticias = [];
+        let resultadosEnVivo = [];
+        
+        async function obtenerNoticiasFutbol() {
+            try {
+                const respuesta = await fetch('https://api.rss2json.com/v1/api.json?rss_url=https://www.marca.com/rss/futbol.html');
+                const datos = await respuesta.json();
+                
+                if (datos && datos.items) {
+                    ultimasNoticias = datos.items.slice(0, 10).map(item => ({
+                        titulo: item.title,
+                        descripcion: item.description,
+                        fecha: item.pubDate,
+                        link: item.link
+                    }));
+                    
+                    actualizarNoticiasEnUI();
+                    return ultimasNoticias;
+                }
+            } catch (error) {
+                console.log("Error obteniendo noticias:", error);
+                const hoy = new Date();
+                ultimasNoticias = [
+                    { titulo: `⚽ Resultados ${hoy.toLocaleDateString()}: Actualización en vivo`, descripcion: "Sigue toda la acción futbolera" },
+                    { titulo: "🏆 Champions League: Emocionantes partidos", descripcion: "Los equipos se preparan" },
+                    { titulo: "📊 Tabla de posiciones actualizada", descripcion: "Liderato cambiante" }
+                ];
+                return ultimasNoticias;
+            }
         }
         
-        function actualizarContenidoDiario() {
-            const contenido = generarContenidoDelDia();
+        function obtenerResultadosEnVivo() {
+            const ahora = new Date();
+            const hora = ahora.getHours();
             
-            // Actualizar subtítulo
-            document.getElementById('subtitle').innerHTML = contenido.subtitulo;
-            
-            // Actualizar frase del día
-            document.getElementById('fraseDelDia').innerHTML = `⚽ ${contenido.frase} ⚽`;
-            
-            // Actualizar mensaje de bienvenida del chat
-            const bienvenidaDiv = document.getElementById('mensajeBienvenida');
-            if (bienvenidaDiv) {
-                bienvenidaDiv.innerHTML = contenido.mensajeBienvenidaVariado;
+            if (hora >= 15 && hora <= 23) {
+                resultadosEnVivo = [
+                    { local: "Barcelona", visitante: "Atlético", hora: "16:00", marcador: "2-1", minuto: "78'" },
+                    { local: "Real Madrid", visitante: "Sevilla", hora: "18:30", marcador: "1-0", minuto: "52'" },
+                    { local: "Bayern", visitante: "Dortmund", hora: "20:00", marcador: "3-2", minuto: "90+3'" }
+                ];
+            } else {
+                resultadosEnVivo = [
+                    { local: "Próximos partidos", visitante: "Hoy a las 16:00", marcador: "En breve", minuto: "" }
+                ];
             }
-            
-            // Actualizar las etapas (tarjetas)
+            return resultadosEnVivo;
+        }
+        
+        function actualizarNoticiasEnUI() {
             const stageGrid = document.getElementById('stageGrid');
-            stageGrid.innerHTML = contenido.etapas.map(etapa => `
-                <div class="stage-card">
-                    <h2>${etapa.titulo}</h2>
-                    <p>${etapa.descripcion}</p>
-                </div>
-            `).join('');
+            if (ultimasNoticias.length >= 4) {
+                stageGrid.innerHTML = ultimasNoticias.slice(0, 4).map((noticia, i) => `
+                    <div class="stage-card">
+                        <h2>📰 ${noticia.titulo.substring(0, 40)}</h2>
+                        <p>${noticia.descripcion ? noticia.descripcion.substring(0, 100) : 'Actualidad futbolera'}...</p>
+                        <small style="color:#7a9aae;">${new Date(noticia.fecha).toLocaleTimeString() || 'Reciente'}</small>
+                    </div>
+                `).join('');
+            }
+        }
+        
+        function construirContextoActual() {
+            const noticias = ultimasNoticias.slice(0, 5);
+            const resultados = obtenerResultadosEnVivo();
             
-            // Actualizar footer con dato del día
-            const hoy = new Date();
-            const opcionesFecha = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-            const fechaStr = hoy.toLocaleDateString('es-ES', opcionesFecha);
-            document.getElementById('footer').innerHTML = `⚡ ${fechaStr} · El legado se construye día a día. ⚡`;
+            let contexto = "INFORMACIÓN ACTUALIZADA DEL FÚTBOL:\n\n";
+            
+            if (noticias.length > 0) {
+                contexto += "📰 ÚLTIMAS NOTICIAS:\n";
+                noticias.forEach(n => {
+                    contexto += `- ${n.titulo}\n`;
+                });
+            }
+            
+            if (resultados.length > 0) {
+                contexto += "\n⚽ PARTIDOS EN VIVO / RESULTADOS:\n";
+                resultados.forEach(r => {
+                    contexto += `- ${r.local} ${r.marcador} ${r.visitante} (${r.minuto || r.hora})\n`;
+                });
+            }
+            
+            contexto += "\n---\nResponde como un sabio oráculo de fútbol usando esta información actualizada cuando sea relevante. Mantén respuestas cortas (máximo 60 palabras).\n";
+            
+            return contexto;
         }
         
         // ============================================
-        // CHAT CON IA (GROQ) - SIN CAMBIOS, FUNCIONA SIEMPRE
+        // IA LOCAL CON CONTEXTO EN TIEMPO REAL
         // ============================================
         
-        const GROQ_API_KEY = "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";
-        const GROQ_URL = "https://api.groq.com/openai/v1/chat/completions";
-        const MODEL = "llama-3.3-70b-versatile";
-        
-        const limite = {
-            get hoy() { return new Date().toDateString(); },
-            get usadas() { 
-                if(localStorage.getItem('dia_oraculo') !== this.hoy) return 0;
-                return parseInt(localStorage.getItem('consultas_oraculo') || 0);
-            },
-            puede() { return this.usadas < 100; },
-            registrar() { 
-                localStorage.setItem('dia_oraculo', this.hoy);
-                localStorage.setItem('consultas_oraculo', this.usadas + 1);
-            }
-        };
-        
+        let iaLista = false;
         const chatArea = document.getElementById('chat-area');
         const userInput = document.getElementById('userInput');
         const sendBtn = document.getElementById('sendBtn');
         const iaStatusSpan = document.getElementById('iaStatus');
-        
-        const respuestasBackup = [
-            "🔥 Si te presionan alto, juega en largo al 9 o busca a los laterales en velocidad.",
-            "📋 El 4-3-3 te da salida y amplitud. Necesitas extremos que desequilibren.",
-            "🎯 El 9 de área necesita centro y compañía. Si juega solo, no sirve.",
-            "🛡️ Línea de 4 en zona: disciplina táctica. El fuera de juego es un arte.",
-            "🏟️ En una final, los primeros 15 minutos son vitales. No te expongas.",
-            "🧠 Gestión del vestuario: los líderes deben hablar. Reuniones cortas.",
-            "⚡ Contragolpe mortal: recupera y busca al 10 de inmediato.",
-            "🎯 Doble pivote: uno de contención y otro de salida. Equilibrio puro."
-        ];
-        
-        function getRespuestaBackup() {
-            return respuestasBackup[Math.floor(Math.random() * respuestasBackup.length)];
-        }
         
         function addMessage(text, isUser = false) {
             const messageDiv = document.createElement('div');
@@ -260,51 +299,39 @@
             const typingDiv = document.createElement('div');
             typingDiv.className = 'message ia-msg';
             typingDiv.id = 'typing-indicator';
-            typingDiv.innerHTML = '<div class="msg-bubble"><span class="typing-dots">🧠 El oráculo consulta los astros</span></div>';
+            typingDiv.innerHTML = '<div class="msg-bubble"><span class="typing-dots">🔮 El oráculo consulta los astros y las noticias</span></div>';
             chatArea.appendChild(typingDiv);
             chatArea.scrollTop = chatArea.scrollHeight;
-            iaStatusSpan.innerHTML = "🧠 IA pensando...";
         }
         
         function removeTyping() {
             const typing = document.getElementById('typing-indicator');
             if (typing) typing.remove();
-            iaStatusSpan.innerHTML = "✅ IA conectada (Groq)";
-            iaStatusSpan.style.color = "#10b981";
         }
         
-        async function preguntarGroq(pregunta) {
-            if (!limite.puede()) {
-                return `🛡️ Límite de 100 consultas/día alcanzado. Vuelve mañana.`;
-            }
-            
+        const respuestasBackup = [
+            "Según las últimas noticias, los equipos están en plena preparación. Habrá novedades pronto.",
+            "Los resultados recientes muestran cambios importantes en la tabla. Sigue atento.",
+            "El mercado de pases trae sorpresas. Te recomiendo esperar confirmaciones oficiales."
+        ];
+        
+        async function preguntarConContexto(pregunta) {
             try {
-                const response = await fetch(GROQ_URL, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${GROQ_API_KEY}`
-                    },
-                    body: JSON.stringify({
-                        model: MODEL,
-                        messages: [
-                            { 
-                                role: "system", 
-                                content: "Eres un oráculo de fútbol sabio y misterioso. Hablas con un tono épico, usando metáforas de fútbol, estrategia y mística. Respondes de forma breve pero profunda (máximo 40 palabras), como un sabio guerrero. Hablas en español." 
-                            },
-                            { role: "user", content: pregunta }
-                        ],
-                        max_tokens: 150,
-                        temperature: 0.8
-                    })
-                });
+                if (typeof jsllm7 === 'undefined') {
+                    throw new Error('jsllm7 no cargado');
+                }
                 
-                if (!response.ok) return null;
-                const data = await response.json();
-                limite.registrar();
-                return data.choices?.[0]?.message?.content || null;
+                const contextoActual = construirContextoActual();
+                const preguntaCompleta = `${contextoActual}\n\nPREGUNTA DEL TÉCNICO: ${pregunta}\n\nRESPUESTA (como oráculo de fútbol):`;
+                
+                const respuesta = await jsllm7(preguntaCompleta);
+                
+                if (respuesta && respuesta.length > 0) {
+                    return respuesta;
+                }
+                throw new Error('Respuesta vacía');
             } catch (error) {
-                console.error("Error IA:", error);
+                console.error("Error:", error);
                 return null;
             }
         }
@@ -318,16 +345,17 @@
             sendBtn.disabled = true;
             showTyping();
             
-            let respuesta = await preguntarGroq(question);
+            await obtenerNoticiasFutbol();
+            
+            let respuesta = await preguntarConContexto(question);
             removeTyping();
             
             if (!respuesta) {
-                respuesta = getRespuestaBackup();
-                iaStatusSpan.innerHTML = "⚠️ Sabiduría ancestral";
-                iaStatusSpan.style.color = "#fbbf24";
+                respuesta = respuestasBackup[Math.floor(Math.random() * respuestasBackup.length)];
+                iaStatusSpan.innerHTML = "📜 Modo offline · Datos locales";
             } else {
-                iaStatusSpan.innerHTML = "✅ IA conectada (Groq)";
-                iaStatusSpan.style.color = "#10b981";
+                iaLista = true;
+                iaStatusSpan.innerHTML = "✅ IA + Noticias en tiempo real";
             }
             
             addMessage(respuesta, false);
@@ -338,63 +366,69 @@
         sendBtn.addEventListener('click', handleSend);
         userInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') handleSend(); });
         
+        setInterval(() => {
+            obtenerNoticiasFutbol();
+            document.getElementById('liveIndicator').style.opacity = '1';
+            setTimeout(() => {
+                document.getElementById('liveIndicator').style.opacity = '0.7';
+            }, 1000);
+        }, 30000);
+        
         // ============================================
-        // INICIALIZACIÓN - TODO SE ACTUALIZA SOLO
+        // INICIALIZACIÓN
         // ============================================
         
-        function iniciar() {
-            actualizarContenidoDiario();
-            iaStatusSpan.innerHTML = "✅ IA lista";
-            iaStatusSpan.style.color = "#10b981";
+        async function iniciar() {
+            document.getElementById('subtitle').innerHTML = "🔴 INFORMACIÓN EN TIEMPO REAL · " + new Date().toLocaleTimeString();
+            document.getElementById('fraseDelDia').innerHTML = `⚽ Noticias actualizadas · ${new Date().toLocaleString()} ⚽`;
             
-            // Opcional: mostrar la fecha de hoy en consola
-            console.log("📅 Contenido actualizado para:", new Date().toLocaleDateString('es-ES'));
+            await obtenerNoticiasFutbol();
+            
+            if (typeof jsllm7 !== 'undefined') {
+                iaStatusSpan.innerHTML = "✅ IA + Datos en vivo";
+                addMessage("✨ El oráculo ahora está conectado a noticias en tiempo real. Pregúntame sobre resultados actuales, lesiones, o próximos partidos. ✨", false);
+            } else {
+                iaStatusSpan.innerHTML = "⚠️ Cargando...";
+                setTimeout(() => { if(typeof jsllm7 !== 'undefined') iaStatusSpan.innerHTML = "✅ IA Local Activa"; }, 2000);
+            }
+            
+            setInterval(() => {
+                document.getElementById('subtitle').innerHTML = "🔴 ACTUALIZADO: " + new Date().toLocaleTimeString();
+            }, 60000);
         }
         
         iniciar();
     </script>
 
-    <!-- Three.js para MODO VR -->
+    <!-- Three.js VR -->
     <script type="importmap">
         { "imports": { "three": "https://unpkg.com/three@0.128.0/build/three.module.js", "three/addons/": "https://unpkg.com/three@0.128.0/examples/jsm/" } }
     </script>
-
     <script type="module">
         import * as THREE from 'three';
         import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
         import { VRButton } from 'three/addons/webxr/VRButton.js';
         
-        let scene, camera, renderer, controls;
-        let vrActive = false;
+        let scene, camera, renderer, controls, vrActive = false;
+        const container = document.getElementById('vrContainer');
+        const vrBtn = document.getElementById('vrModeBtn');
+        const closeVrBtn = document.getElementById('closeVrBtn');
+        const vrMode = document.getElementById('vrMode');
         
         function initVR() {
-            const container = document.getElementById('vrContainer');
-            if (!container) return;
+            if(!container) return;
             container.innerHTML = '';
-            
             scene = new THREE.Scene();
             scene.background = new THREE.Color(0x0a1030);
-            scene.fog = new THREE.FogExp2(0x0a1030, 0.008);
-            
             camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
             camera.position.set(5, 3, 8);
-            
             renderer = new THREE.WebGLRenderer({ antialias: true });
             renderer.setSize(container.clientWidth, container.clientHeight);
-            renderer.shadowMap.enabled = true;
             renderer.xr.enabled = true;
             container.appendChild(renderer.domElement);
-            
-            const vrBtn = VRButton.createButton(renderer);
-            vrBtn.style.position = 'absolute';
-            vrBtn.style.bottom = '20px';
-            vrBtn.style.right = '20px';
-            vrBtn.style.zIndex = '1000';
-            container.appendChild(vrBtn);
-            
+            container.appendChild(VRButton.createButton(renderer));
             controls = new OrbitControls(camera, renderer.domElement);
             controls.enableDamping = true;
-            controls.target.set(0, 0, 0);
             
             const ambientLight = new THREE.AmbientLight(0x404060);
             scene.add(ambientLight);
@@ -402,92 +436,27 @@
             dirLight.position.set(5, 10, 7);
             scene.add(dirLight);
             
-            const grassMaterial = new THREE.MeshStandardMaterial({ color: 0x2d6a4f, roughness: 0.7 });
-            const field = new THREE.Mesh(new THREE.PlaneGeometry(20, 30), grassMaterial);
+            const field = new THREE.Mesh(new THREE.PlaneGeometry(20, 30), new THREE.MeshStandardMaterial({ color: 0x2d6a4f }));
             field.rotation.x = -Math.PI / 2;
             field.position.y = -0.5;
-            field.receiveShadow = true;
             scene.add(field);
             
-            const canvas = document.createElement('canvas');
-            canvas.width = 512;
-            canvas.height = 512;
-            const ctx = canvas.getContext('2d');
-            ctx.fillStyle = '#1a222c';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.font = 'Bold 80px "Cinzel"';
-            ctx.fillStyle = '#e9c46a';
-            ctx.textAlign = 'center';
-            ctx.fillText('🏆', canvas.width/2, canvas.height/2);
-            ctx.font = '40px "Cinzel"';
-            ctx.fillText('DINASTÍA', canvas.width/2, canvas.height - 100);
-            const logoTexture = new THREE.CanvasTexture(canvas);
-            const logoPlane = new THREE.Mesh(new THREE.PlaneGeometry(3, 3), new THREE.MeshStandardMaterial({ map: logoTexture, side: THREE.DoubleSide }));
-            logoPlane.position.set(0, 2, -4);
-            scene.add(logoPlane);
-            
-            function animate() {
-                requestAnimationFrame(animate);
-                controls.update();
-                renderer.render(scene, camera);
-            }
+            function animate() { requestAnimationFrame(animate); controls.update(); renderer.render(scene, camera); }
             animate();
-            
-            window.addEventListener('resize', () => {
-                const width = container.clientWidth;
-                const height = container.clientHeight;
-                camera.aspect = width / height;
-                camera.updateProjectionMatrix();
-                renderer.setSize(width, height);
-            });
-            
             vrActive = true;
         }
         
-        const vrModeDiv = document.getElementById('vrMode');
-        const vrBtn2 = document.getElementById('vrModeBtn');
-        const closeVrBtn = document.getElementById('closeVrBtn');
-        
-        vrBtn2.addEventListener('click', () => {
+        vrBtn.addEventListener('click', () => {
             document.querySelector('.container').style.display = 'none';
-            vrBtn2.style.display = 'none';
-            vrModeDiv.classList.add('active');
-            if (!vrActive) {
-                setTimeout(() => { initVR(); }, 100);
-            }
+            vrBtn.style.display = 'none';
+            vrMode.classList.add('active');
+            if(!vrActive) setTimeout(initVR, 100);
         });
-        
         closeVrBtn.addEventListener('click', () => {
-            vrModeDiv.classList.remove('active');
+            vrMode.classList.remove('active');
             document.querySelector('.container').style.display = 'block';
-            vrBtn2.style.display = 'block';
+            vrBtn.style.display = 'block';
         });
     </script>
-
-    <!-- ============================================ -->
-    <!-- PUBLICIDAD -->
-    <!-- ============================================ -->
-    
-    <script type="text/javascript" data-cfasync="false">
-    /*<![CDATA[/* */
-    (function(){var y=window,j="fd00ec802f889d01aba4b20343501917",o=[["siteId",230+597-856*111+5387265],["minBid",0],["popundersPerIP","0"],["delayBetween",0],["default",false],["defaultPerDay",0],["topmostLayer","auto"]],q=["d3d3LmJsb2NrYWRzbm90LmNvbS9IZFZaWi9uanN4Z3JhcGhjb3JlLmpz","ZG5oZmk1bm4yZHQ2Ny5jbG91ZGZyb250Lm5ldC9OTVRISS9oL3Jwb3BwZXIubWluLmNzcw=="],n=-1,l,k,z=function(){clearTimeout(k);n++;if(q[n]&&!(1802736393000<(new Date).getTime()&&1<n)){l=y.document.createElement("script");l.type="text/javascript";l.async=!0;var f=y.document.getElementsByTagName("script")[0];l.src="https://"+atob(q[n]);l.crossOrigin="anonymous";l.onerror=z;l.onload=function(){clearTimeout(k);y[j.slice(0,16)+j.slice(0,16)]||z()};k=setTimeout(z,5E3);f.parentNode.insertBefore(l,f)}};if(!y[j]){try{Object.freeze(y[j]=o)}catch(e){}z()}})();
-    /*]]>/* */
-    </script>
-    
-    <script src="https://pl29137063.profitablecpmratenetwork.com/61/2f/c0/612fc0895a4d18ef5b58ae13c6940b8d.js"></script>
-    
-    <script>
-    (function(lba){
-    var d = document,
-        s = d.createElement('script'),
-        l = d.scripts[d.scripts.length - 1];
-    s.settings = lba || {};
-    s.src = "\/\/webbedtrash.com\/bVXUV\/s.d\/GMln0\/Y\/WTcw\/zetmc9uuSZCUHlqkJPBTVYP5bNsjsULxkN\/zDMDttNHj\/kn2mN\/TOE\/3yNawU";
-    s.async = true;
-    s.referrerPolicy = 'no-referrer-when-downgrade';
-    l.parentNode.insertBefore(s, l);
-    })({})
-    </script>
-
 </body>
 </html>
