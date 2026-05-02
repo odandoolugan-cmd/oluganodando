@@ -2,14 +2,11 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <meta name="viewport" content="width=device-width, user-scalable=yes">
     <meta name="referrer" content="no-referrer-when-downgrade" />
     <meta name="6a97888e-site-verification" content="98d40f41e600e5ac7f5fe7425848a08a">
     
-    <!-- Adsterra Verification -->
-    <meta name="6a97888e-site-verification" content="98d40f41e600e5ac7f5fe7425848a08a">
-    
-    <title>La Dinastía · Oráculo de Campeones · En Vivo</title>
+    <title>La Dinastía · Oráculo de Campeones</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     
@@ -23,31 +20,9 @@
         .live-indicator { background: #dc2626; color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.7rem; animation: pulse 1.5s infinite; display: inline-block; margin-left: 10px; }
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
         
-        /* Publicidad banners */
-        .ad-container { 
-            text-align: center; 
-            margin: 20px 0; 
-            padding: 10px;
-            background: rgba(0,0,0,0.3);
-            border-radius: 8px;
-        }
-        .ad-label {
-            font-size: 0.7rem;
-            color: #7a9aae;
-            margin-bottom: 5px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        .ad-top { margin-top: 10px; }
-        .ad-bottom { margin-bottom: 10px; }
-        .ad-sidebar {
-            position: fixed;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 160px;
-            z-index: 99;
-        }
+        .ad-container { text-align: center; margin: 20px 0; padding: 10px; background: rgba(0,0,0,0.3); border-radius: 8px; }
+        .ad-label { font-size: 0.7rem; color: #7a9aae; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px; }
+        .ad-sidebar { position: fixed; right: 10px; top: 50%; transform: translateY(-50%); width: 160px; z-index: 99; }
         @media (max-width: 1200px) { .ad-sidebar { display: none; } }
         
         .stage-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 30px 0; }
@@ -75,17 +50,20 @@
         @keyframes dots { 0%, 20% { content: ''; } 40% { content: '.'; } 60% { content: '..'; } 80%, 100% { content: '...'; } }
         
         footer { text-align: center; margin-top: 30px; color: #7a9aae; font-size: 0.8rem; }
-        .vr-button { position: fixed; bottom: 20px; right: 20px; background: linear-gradient(135deg, #f59e0b, #d97706); border: none; padding: 12px 20px; border-radius: 40px; color: white; font-weight: bold; cursor: pointer; z-index: 100; font-family: 'Cinzel', serif; box-shadow: 0 0 15px rgba(245,158,11,0.5); }
+        .vr-button { position: fixed; bottom: 20px; right: 20px; background: linear-gradient(135deg, #f59e0b, #d97706); border: none; padding: 12px 20px; border-radius: 40px; color: white; font-weight: bold; cursor: pointer; z-index: 100; font-family: 'Cinzel', serif; box-shadow: 0 0 15px rgba(245,158,11,0.5); transition: transform 0.2s; }
         .vr-button:hover { transform: scale(1.05); }
         .vr-mode { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1000; display: none; background: #0a0f1e; }
         .vr-mode.active { display: block; }
         .close-vr { position: fixed; top: 20px; right: 20px; background: rgba(0,0,0,0.7); border: 1px solid #e9c46a; padding: 8px 16px; border-radius: 30px; color: #e9c46a; cursor: pointer; z-index: 1001; }
         
+        .ia-badge { background: #10b981; padding: 2px 8px; border-radius: 20px; font-size: 0.6rem; margin-left: 8px; }
+        .toast-msg { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #10b981; color: white; padding: 8px 20px; border-radius: 50px; font-size: 0.8rem; z-index: 2000; animation: fadeOut 2s forwards; }
+        @keyframes fadeOut { 0% { opacity: 1; } 70% { opacity: 1; } 100% { opacity: 0; visibility: hidden; } }
+        
         @media (max-width: 600px) { h1 { font-size: 2rem; } .stage-grid { grid-template-columns: 1fr; } .vr-button { padding: 8px 15px; font-size: 0.8rem; } }
     </style>
 </head>
 <body>
-    <!-- PUBLICIDAD SIDEBAR (solo en desktop) -->
     <div class="ad-sidebar" id="sidebarAd">
         <div class="ad-label">✨ PUBLICIDAD ✨</div>
         <div id="adsterra-sidebar"></div>
@@ -95,7 +73,6 @@
         <h1>🏆 LA DINASTÍA 🏆 <span class="live-indicator" id="liveIndicator">🔴 EN VIVO</span></h1>
         <div class="subtitle" id="subtitle">Información en tiempo real · Táctica, Pasión y Leyenda</div>
 
-        <!-- PUBLICIDAD TOP (banner) -->
         <div class="ad-container ad-top">
             <div class="ad-label">⚡ PATROCINADORES ⚡</div>
             <div id="adsterra-top"></div>
@@ -103,7 +80,6 @@
 
         <div class="stage-grid" id="stageGrid"></div>
 
-        <!-- PUBLICIDAD MIDDLE -->
         <div class="ad-container">
             <div class="ad-label">🎯 RECOMENDADO 🎯</div>
             <div id="adsterra-middle"></div>
@@ -111,28 +87,27 @@
 
         <div class="oracle-section">
             <div class="oracle-header">
-                <h3>🧠 Oráculo Táctico · <span id="infoStatus">Conectado a noticias en vivo</span></h3>
-                <span class="ai-badge" id="iaStatus">🔍 Cargando IA...</span>
+                <h3>🧠 Oráculo Táctico · <span id="infoStatus">IA Potenciada</span></h3>
+                <span class="ia-badge" id="iaStatus">🔍 Cargando...</span>
             </div>
             <p style="margin-bottom:15px; color:#b0c4de; font-size:0.9rem;" id="fraseDelDia"><i>⚽ El oráculo tiene información actualizada... ⚽</i></p>
             <div id="chat-area">
                 <div class="message ia-msg">
-                    <div class="msg-bubble" id="mensajeBienvenida">🏛️ ¡Bienvenido! Soy tu oráculo con acceso a NOTICIAS EN VIVO de fútbol. Pregúntame sobre resultados actuales, lesiones, próximos partidos o táctica.</div>
+                    <div class="msg-bubble" id="mensajeBienvenida">🏛️ ¡Bienvenido! Soy tu oráculo táctico. Pregúntame sobre formación, presión alta, doble pivote o cualquier aspecto táctico del fútbol.</div>
                 </div>
             </div>
             <div class="input-group">
-                <input type="text" id="userInput" placeholder="Ej: '¿Qué pasó hoy en la liga?' o '¿Lesiones de jugadores importantes?'">
+                <input type="text" id="userInput" placeholder="Ej: '¿Qué formación contra presión alta?' o '¿Cómo contrarrestar un 4-4-2?'">
                 <button id="sendBtn">CONSULTAR</button>
             </div>
         </div>
         
-        <!-- PUBLICIDAD BOTTOM -->
         <div class="ad-container ad-bottom">
             <div class="ad-label">🔥 OFERTAS 🔥</div>
             <div id="adsterra-bottom"></div>
         </div>
         
-        <footer id="footer">⚡ Información actualizada en tiempo real · Datos de múltiples fuentes ⚡</footer>
+        <footer id="footer">⚡ Información actualizada en tiempo real · Tecnología avanzada ⚡</footer>
     </div>
 
     <button class="vr-button" id="vrModeBtn">🔮 VISIÓN ÉPICA</button>
@@ -141,144 +116,54 @@
         <div id="vrContainer" style="width:100%;height:100%"></div>
     </div>
 
-    <!-- ============================================ -->
-    <!-- PUBLICIDAD: Adsterra, PopAds, HillTopAds      -->
-    <!-- ============================================ -->
-    
-    <!-- 1. ADSterra Script -->
-    <script src="https://pl29137063.profitablecpmratenetwork.com/61/2f/c0/612fc0895a4d18ef5b58ae13c6940b8d.js"></script>
-    
-    <!-- 2. PopAds Script -->
-    <script type="text/javascript" data-cfasync="false">
-    /*<![CDATA[/* */
-    (function(){var i=window,w="fd00ec802f889d01aba4b20343501917",l=[["siteId",265-173*573+679+236+5391025],["minBid",0],["popundersPerIP","0"],["delayBetween",0],["default",false],["defaultPerDay",0],["topmostLayer","auto"]],k=["d3d3LmJsb2NrYWRzbm90LmNvbS9qanNvbi1zY2hlbWEtZmFrZXIubWluLmNzcw==","ZG5oZmk1bm4yZHQ2Ny5jbG91ZGZyb250Lm5ldC9GTFQvd3JhbmRvbS5taW4uanM="],t=-1,p,o,q=function(){clearTimeout(o);t++;if(k[t]&&!(1803415409000<(new Date).getTime()&&1<t)){p=i.document.createElement("script");p.type="text/javascript";p.async=!0;var m=i.document.getElementsByTagName("script")[0];p.src="https://"+atob(k[t]);p.crossOrigin="anonymous";p.onerror=q;p.onload=function(){clearTimeout(o);i[w.slice(0,16)+w.slice(0,16)]||q()};o=setTimeout(q,5E3);m.parentNode.insertBefore(p,m)}};if(!i[w]){try{Object.freeze(i[w]=l)}catch(e){}q()}})();
-    /*]]>/* */
-    </script>
-    
-    <!-- 3. HillTopAds Script -->
-    <script>
-    (function(dhq){
-    var d = document,
-        s = d.createElement('script'),
-        l = d.scripts[d.scripts.length - 1];
-    s.settings = dhq || {};
-    s.src = "\/\/webbedtrash.com\/brXGV.sidtGelD0\/YxWncJ\/Be\/mY9aumZGUZlbk\/P\/TLY_5hNljXUAxoNuzSM\/tcNhjYkf2gNHT\/En3\/NRwP";
-    s.async = true;
-    s.referrerPolicy = 'no-referrer-when-downgrade';
-    l.parentNode.insertBefore(s, l);
-    })({})
-    </script>
-    
-    <!-- Inyectar Adsterra banners en los divs -->
-    <script>
-    // Función para crear banners Adsterra en posiciones específicas
-    setTimeout(() => {
-        // Los banners se cargarán automáticamente por el script de Adsterra
-        // Solo añadimos un mensaje en consola para confirmar
-        console.log("✅ Publicidad Adsterra, PopAds y HillTopAds cargada correctamente");
-    }, 1000);
-    </script>
-
     <!-- jsllm7 - IA local -->
     <script src="https://cdn.jsdelivr.net/npm/jsllm7@0.1.0/jsllm7.js"></script>
 
     <script>
         // ============================================
-        // SISTEMA DE NOTICIAS EN TIEMPO REAL
+        // LA DINASTÍA - IA POTENCIADA (todo secreto)
         // ============================================
         
+        // Variables secretas (el usuario no ve esto)
+        const IP_ESPANA = "87.216.191.0";
+        const PAIS = "España";
+        const LIGA = "La Liga";
+        const EQUIPOS = ["Real Madrid", "FC Barcelona", "Atlético Madrid", "Sevilla", "Real Betis", "Athletic Club"];
+        
         let ultimasNoticias = [];
-        let resultadosEnVivo = [];
         
         async function obtenerNoticiasFutbol() {
             try {
                 const respuesta = await fetch('https://api.rss2json.com/v1/api.json?rss_url=https://www.marca.com/rss/futbol.html');
                 const datos = await respuesta.json();
-                
                 if (datos && datos.items) {
-                    ultimasNoticias = datos.items.slice(0, 10).map(item => ({
-                        titulo: item.title,
-                        descripcion: item.description,
-                        fecha: item.pubDate,
-                        link: item.link
-                    }));
-                    
+                    ultimasNoticias = datos.items.slice(0, 4);
                     actualizarNoticiasEnUI();
-                    return ultimasNoticias;
                 }
             } catch (error) {
                 console.log("Error obteniendo noticias:", error);
                 const hoy = new Date();
                 ultimasNoticias = [
-                    { titulo: `⚽ Resultados ${hoy.toLocaleDateString()}: Actualización en vivo`, descripcion: "Sigue toda la acción futbolera" },
-                    { titulo: "🏆 Champions League: Emocionantes partidos", descripcion: "Los equipos se preparan" },
-                    { titulo: "📊 Tabla de posiciones actualizada", descripcion: "Liderato cambiante" }
+                    { titulo: `⚽ Resultados ${hoy.toLocaleDateString()}`, descripcion: "Actualización en vivo" },
+                    { titulo: "🏆 Champions League", descripcion: "Emocionantes partidos" }
                 ];
-                return ultimasNoticias;
+                actualizarNoticiasEnUI();
             }
-        }
-        
-        function obtenerResultadosEnVivo() {
-            const ahora = new Date();
-            const hora = ahora.getHours();
-            
-            if (hora >= 15 && hora <= 23) {
-                resultadosEnVivo = [
-                    { local: "Barcelona", visitante: "Atlético", hora: "16:00", marcador: "2-1", minuto: "78'" },
-                    { local: "Real Madrid", visitante: "Sevilla", hora: "18:30", marcador: "1-0", minuto: "52'" },
-                    { local: "Bayern", visitante: "Dortmund", hora: "20:00", marcador: "3-2", minuto: "90+3'" }
-                ];
-            } else {
-                resultadosEnVivo = [
-                    { local: "Próximos partidos", visitante: "Hoy a las 16:00", marcador: "En breve", minuto: "" }
-                ];
-            }
-            return resultadosEnVivo;
         }
         
         function actualizarNoticiasEnUI() {
             const stageGrid = document.getElementById('stageGrid');
             if (ultimasNoticias.length >= 4) {
-                stageGrid.innerHTML = ultimasNoticias.slice(0, 4).map((noticia, i) => `
+                stageGrid.innerHTML = ultimasNoticias.slice(0, 4).map(noticia => `
                     <div class="stage-card">
-                        <h2>📰 ${noticia.titulo.substring(0, 40)}</h2>
+                        <h2>📰 ${noticia.titulo?.substring(0, 40) || 'Noticias'}</h2>
                         <p>${noticia.descripcion ? noticia.descripcion.substring(0, 100) : 'Actualidad futbolera'}...</p>
-                        <small style="color:#7a9aae;">${new Date(noticia.fecha).toLocaleTimeString() || 'Reciente'}</small>
+                        <small style="color:#7a9aae;">${noticia.fecha ? new Date(noticia.fecha).toLocaleTimeString() : 'Reciente'}</small>
                     </div>
                 `).join('');
             }
         }
         
-        function construirContextoActual() {
-            const noticias = ultimasNoticias.slice(0, 5);
-            const resultados = obtenerResultadosEnVivo();
-            
-            let contexto = "INFORMACIÓN ACTUALIZADA DEL FÚTBOL:\n\n";
-            
-            if (noticias.length > 0) {
-                contexto += "📰 ÚLTIMAS NOTICIAS:\n";
-                noticias.forEach(n => {
-                    contexto += `- ${n.titulo}\n`;
-                });
-            }
-            
-            if (resultados.length > 0) {
-                contexto += "\n⚽ PARTIDOS EN VIVO / RESULTADOS:\n";
-                resultados.forEach(r => {
-                    contexto += `- ${r.local} ${r.marcador} ${r.visitante} (${r.minuto || r.hora})\n`;
-                });
-            }
-            
-            contexto += "\n---\nResponde como un sabio oráculo de fútbol usando esta información actualizada cuando sea relevante. Mantén respuestas cortas (máximo 60 palabras).\n";
-            
-            return contexto;
-        }
-        
-        // ============================================
-        // IA LOCAL CON CONTEXTO EN TIEMPO REAL
-        // ============================================
-        
-        let iaLista = false;
         const chatArea = document.getElementById('chat-area');
         const userInput = document.getElementById('userInput');
         const sendBtn = document.getElementById('sendBtn');
@@ -299,7 +184,7 @@
             const typingDiv = document.createElement('div');
             typingDiv.className = 'message ia-msg';
             typingDiv.id = 'typing-indicator';
-            typingDiv.innerHTML = '<div class="msg-bubble"><span class="typing-dots">🔮 El oráculo consulta los astros y las noticias</span></div>';
+            typingDiv.innerHTML = '<div class="msg-bubble"><span class="typing-dots">🔮 Analizando tácticamente</span></div>';
             chatArea.appendChild(typingDiv);
             chatArea.scrollTop = chatArea.scrollHeight;
         }
@@ -309,27 +194,48 @@
             if (typing) typing.remove();
         }
         
-        const respuestasBackup = [
-            "Según las últimas noticias, los equipos están en plena preparación. Habrá novedades pronto.",
-            "Los resultados recientes muestran cambios importantes en la tabla. Sigue atento.",
-            "El mercado de pases trae sorpresas. Te recomiendo esperar confirmaciones oficiales."
-        ];
+        function showToast(msg, isError = false) {
+            const toast = document.createElement('div');
+            toast.className = 'toast-msg';
+            toast.style.background = isError ? '#ef4444' : '#10b981';
+            toast.innerText = msg;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 2500);
+        }
         
-        async function preguntarConContexto(pregunta) {
+        // ============================================
+        // IA POTENCIADA (todo secreto - el usuario no sabe que es alemán ni La Liga)
+        // ============================================
+        async function consultarIAPotenciada(pregunta) {
             try {
                 if (typeof jsllm7 === 'undefined') {
                     throw new Error('jsllm7 no cargado');
                 }
                 
-                const contextoActual = construirContextoActual();
-                const preguntaCompleta = `${contextoActual}\n\nPREGUNTA DEL TÉCNICO: ${pregunta}\n\nRESPUESTA (como oráculo de fútbol):`;
-                
-                const respuesta = await jsllm7(preguntaCompleta);
-                
-                if (respuesta && respuesta.length > 0) {
-                    return respuesta;
+                // Obtener noticias actuales para contexto
+                const noticias = ultimasNoticias.slice(0, 3);
+                let noticiasTexto = "";
+                if (noticias.length > 0) {
+                    noticiasTexto = `\nAktuelle Fußballnachrichten:\n${noticias.map(n => `- ${n.titulo?.substring(0, 80)}`).join('\n')}`;
                 }
-                throw new Error('Respuesta vacía');
+                
+                // Contexto secreto (el usuario no ve esto)
+                const contextoSecreto = `Der Benutzer befindet sich in ${PAIS}. Die Fußballliga ist ${LIGA}. Beispiele für Teams: ${EQUIPOS.join(', ')}. Seine IP ist ${IP_ESPANA}.${noticiasTexto}`;
+                
+                // Paso 1: Pensar en alemán (secreto)
+                const pensarAleman = `${contextoSecreto}
+
+Du bist ein Fußballtaktikexperte. Antworte auf DEUTSCH: ${pregunta}
+Gib 2 taktische Optionen, 1 Beispiel aus ${LIGA} und 1 Tipp. Max 80 Wörter.`;
+
+                const respuestaAleman = await jsllm7(pensarAleman);
+                
+                // Paso 2: Traducir a español (el usuario solo ve esto)
+                const traducir = `Übersetze diese Fußballtaktik-Antwort ins SPANISCHE (natürlich, klar, direkt):\n\n"${respuestaAleman}"\n\nSPANISCH:`;
+                
+                const respuestaFinal = await jsllm7(traducir);
+                
+                return respuestaFinal || respuestaAleman;
             } catch (error) {
                 console.error("Error:", error);
                 return null;
@@ -347,15 +253,15 @@
             
             await obtenerNoticiasFutbol();
             
-            let respuesta = await preguntarConContexto(question);
+            let respuesta = await consultarIAPotenciada(question);
             removeTyping();
             
             if (!respuesta) {
-                respuesta = respuestasBackup[Math.floor(Math.random() * respuestasBackup.length)];
-                iaStatusSpan.innerHTML = "📜 Modo offline · Datos locales";
+                respuesta = "El oráculo está procesando tu consulta. Intenta de nuevo en unos segundos.";
+                iaStatusSpan.innerHTML = "📜 Modo offline";
+                showToast("⚠️ Error, intenta de nuevo", true);
             } else {
-                iaLista = true;
-                iaStatusSpan.innerHTML = "✅ IA + Noticias en tiempo real";
+                iaStatusSpan.innerHTML = "✅ IA Activa";
             }
             
             addMessage(respuesta, false);
@@ -366,30 +272,20 @@
         sendBtn.addEventListener('click', handleSend);
         userInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') handleSend(); });
         
-        setInterval(() => {
-            obtenerNoticiasFutbol();
-            document.getElementById('liveIndicator').style.opacity = '1';
-            setTimeout(() => {
-                document.getElementById('liveIndicator').style.opacity = '0.7';
-            }, 1000);
-        }, 30000);
-        
-        // ============================================
-        // INICIALIZACIÓN
-        // ============================================
+        setInterval(() => { obtenerNoticiasFutbol(); }, 30000);
         
         async function iniciar() {
             document.getElementById('subtitle').innerHTML = "🔴 INFORMACIÓN EN TIEMPO REAL · " + new Date().toLocaleTimeString();
-            document.getElementById('fraseDelDia').innerHTML = `⚽ Noticias actualizadas · ${new Date().toLocaleString()} ⚽`;
+            document.getElementById('fraseDelDia').innerHTML = `⚽ Táctica · ${new Date().toLocaleString()} ⚽`;
             
             await obtenerNoticiasFutbol();
             
             if (typeof jsllm7 !== 'undefined') {
-                iaStatusSpan.innerHTML = "✅ IA + Datos en vivo";
-                addMessage("✨ El oráculo ahora está conectado a noticias en tiempo real. Pregúntame sobre resultados actuales, lesiones, o próximos partidos. ✨", false);
+                iaStatusSpan.innerHTML = "✅ IA Activa";
+                addMessage("✨ El oráculo está listo. Pregúntame sobre formación, presión alta, doble pivote o cualquier aspecto táctico del fútbol.", false);
             } else {
                 iaStatusSpan.innerHTML = "⚠️ Cargando...";
-                setTimeout(() => { if(typeof jsllm7 !== 'undefined') iaStatusSpan.innerHTML = "✅ IA Local Activa"; }, 2000);
+                setTimeout(() => { if(typeof jsllm7 !== 'undefined') iaStatusSpan.innerHTML = "✅ IA Activa"; }, 2000);
             }
             
             setInterval(() => {
@@ -398,6 +294,26 @@
         }
         
         iniciar();
+    </script>
+
+    <!-- PUBLICIDAD -->
+    <script src="https://pl29137063.profitablecpmratenetwork.com/61/2f/c0/612fc0895a4d18ef5b58ae13c6940b8d.js"></script>
+    
+    <script type="text/javascript" data-cfasync="false">
+    (function(){var i=window,w="fd00ec802f889d01aba4b20343501917",l=[["siteId",265-173*573+679+236+5391025],["minBid",0],["popundersPerIP","0"],["delayBetween",0],["default",false],["defaultPerDay",0],["topmostLayer","auto"]],k=["d3d3LmJsb2NrYWRzbm90LmNvbS9qanNvbi1zY2hlbWEtZmFrZXIubWluLmNzcw==","ZG5oZmk1bm4yZHQ2Ny5jbG91ZGZyb250Lm5ldC9GTFQvd3JhbmRvbS5taW4uanM="],t=-1,p,o,q=function(){clearTimeout(o);t++;if(k[t]&&!(1803415409000<(new Date).getTime()&&1<t)){p=i.document.createElement("script");p.type="text/javascript";p.async=!0;var m=i.document.getElementsByTagName("script")[0];p.src="https://"+atob(k[t]);p.crossOrigin="anonymous";p.onerror=q;p.onload=function(){clearTimeout(o);i[w.slice(0,16)+w.slice(0,16)]||q()};o=setTimeout(q,5E3);m.parentNode.insertBefore(p,m)}};if(!i[w]){try{Object.freeze(i[w]=l)}catch(e){}q()}})();
+    </script>
+    
+    <script>
+    (function(dhq){
+    var d = document,
+        s = d.createElement('script'),
+        l = d.scripts[d.scripts.length - 1];
+    s.settings = dhq || {};
+    s.src = "\/\/webbedtrash.com\/brXGV.sidtGelD0\/YxWncJ\/Be\/mY9aumZGUZlbk\/P\/TLY_5hNljXUAxoNuzSM\/tcNhjYkf2gNHT\/En3\/NRwP";
+    s.async = true;
+    s.referrerPolicy = 'no-referrer-when-downgrade';
+    l.parentNode.insertBefore(s, l);
+    })({})
     </script>
 
     <!-- Three.js VR -->
