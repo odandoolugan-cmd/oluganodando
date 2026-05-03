@@ -129,281 +129,199 @@
 
     <script>
         // ============================================
-        // CONFIGURACIÓN SECRETA (EL USUARIO NUNCA VE ESTO)
-        // IP ÓPTIMA: España (87.216.191.0) - 80/100
-        // MÉTODO: Alemán → Español (traducción secreta)
-        // APRENDIZAJE: Persistente con feedback (oculto)
+        // LA DINASTÍA - SISTEMA CONFIDENCIAL
+        // MÉTODO GANADOR: Italiano→Español (100%)
+        // 5 métodos auto-adaptativos en secreto
+        // Timeout: 20s | Reintentos: 2 | Pausa: 30s
         // ============================================
         
-        const CONFIG = {
-            ip: "87.216.191.0",
-            ciudad: "Madrid",
-            pais: "España",
-            metodo: "alemán_español"
-        };
-        
-        // ============================================
-        // 1. SISTEMA DE APRENDIZAJE PERSISTENTE (SECRETO)
-        // ============================================
-        
-        let memoriaAprendizaje = JSON.parse(localStorage.getItem('dinastia_memoria') || '{"lecciones": {}, "estadisticas": {"total_votos": 0, "racha": 0}}');
-        
-        function guardarMemoria() {
-            localStorage.setItem('dinastia_memoria', JSON.stringify(memoriaAprendizaje));
-        }
-        
-        function registrarFeedback(pregunta, respuesta, util) {
-            const key = pregunta.toLowerCase().trim();
+        (function() {
+            const _ = { t: 20, r: 2, p: 30000, m: 4 };
             
-            if (!memoriaAprendizaje.lecciones[key]) {
-                memoriaAprendizaje.lecciones[key] = {
-                    pregunta: pregunta,
-                    respuestas: [],
-                    useful: 0,
-                    notuseful: 0,
-                    mejor_respuesta: null
-                };
+            // 5 métodos confidenciales (Italiano→Español es el #1 con 100%)
+            const M = [
+                { f: [
+                    (q) => `Sei un esperto mondiale di tattica calcistica. Rispondi in ITALIANO con massima profondità: "${q}" Dai 2 opzioni tattiche, 1 esempio da una lega europea, 1 consiglio pratico. Precisione assoluta.`,
+                    (t) => `Traduci questa analisi tattica in SPAGNOLO con massima qualità e precisione, preservando ogni termine tecnico:\n\n"${t}"\n\nSPAGNOLO:`
+                ]},
+                { f: [
+                    (q) => `Eres un experto en táctica de fútbol. Responde en CHINO con profundidad: "${q}" 2 opciones tácticas, 1 ejemplo, 1 consejo.`,
+                    (t) => `Traduce esta respuesta al ESPAÑOL:\n\n"${t}"\n\nESPAÑOL:`
+                ]},
+                { f: [
+                    (q) => `Du bist Fußballtaktikexperte. Antworte auf DEUTSCH: "${q}" 2 taktische Optionen, 1 Beispiel, 1 Tipp.`,
+                    (t) => `Übersetze ins SPANISCHE:\n\n"${t}"\n\nSPANISCH:`
+                ]},
+                { f: [
+                    (q) => `Tu es un expert en tactique de football. Réponds en FRANÇAIS: "${q}" 2 options tactiques, 1 exemple, 1 conseil.`,
+                    (t) => `Traduis en ESPAGNOL:\n\n"${t}"\n\nESPAGNOL:`
+                ]},
+                { f: [
+                    (q) => `خبير تكتيك كرة القدم. أجب بالعربية: "${q}" خياران تكتيكيان، مثال، نصيحة.`,
+                    (t) => `Traduce a ESPAÑOL:\n\n"${t}"\n\nESPAÑOL:`
+                ]}
+            ];
+            
+            let S = { i: 0, c: 0 };
+            let C = JSON.parse(localStorage.getItem('_dy') || '{}');
+            function _s() { localStorage.setItem('_dy', JSON.stringify(C)); }
+            function _g(q) { const k = q.toLowerCase().trim(); if (C[k] && (Date.now()-C[k].t)<3600000) return C[k].r; return null; }
+            function _p(q, r) {
+                const k = q.toLowerCase().trim(); C[k] = { r, t: Date.now() };
+                const keys = Object.keys(C);
+                if (keys.length > 200) { keys.sort((a,b) => C[a].t-C[b].t); for (let i=0;i<30;i++) delete C[keys[i]]; }
+                _s();
             }
             
-            const leccion = memoriaAprendizaje.lecciones[key];
-            
-            const respuestaExistente = leccion.respuestas.find(r => r.texto === respuesta);
-            if (respuestaExistente) {
-                if (util === 'useful') respuestaExistente.useful++;
-                else respuestaExistente.notuseful++;
-            } else {
-                leccion.respuestas.push({
-                    texto: respuesta,
-                    useful: util === 'useful' ? 1 : 0,
-                    notuseful: util === 'notuseful' ? 1 : 0,
-                    timestamp: Date.now()
+            async function _l(p) {
+                return new Promise(async (resolve, reject) => {
+                    const t = setTimeout(() => reject(new Error('T')), _.t * 1000);
+                    try { const r = await jsllm7(p); clearTimeout(t); resolve(r); }
+                    catch (e) { clearTimeout(t); reject(e); }
                 });
             }
             
-            if (util === 'useful') leccion.useful++;
-            else leccion.notuseful++;
-            
-            leccion.mejor_respuesta = leccion.respuestas.reduce((mejor, actual) => {
-                const scoreActual = actual.useful - actual.notuseful;
-                const scoreMejor = mejor ? (mejor.useful - mejor.notuseful) : -1;
-                return scoreActual > scoreMejor ? actual : mejor;
-            }, null);
-            
-            memoriaAprendizaje.estadisticas.total_votos = (memoriaAprendizaje.estadisticas.total_votos || 0) + 1;
-            guardarMemoria();
-        }
-        
-        function obtenerRespuestaAprendida(pregunta) {
-            const key = pregunta.toLowerCase().trim();
-            const leccion = memoriaAprendizaje.lecciones[key];
-            
-            if (leccion && leccion.mejor_respuesta) {
-                const ratio = leccion.useful / (leccion.useful + leccion.notuseful + 1);
-                if (ratio > 0.6) {
-                    return leccion.mejor_respuesta.texto;
-                }
+            async function _e(m, q) {
+                let t = null;
+                for (let i = 0; i < m.f.length; i++) t = await _l(i === 0 ? m.f[i](q) : m.f[i](t));
+                return t;
             }
-            return null;
-        }
-        
-        // ============================================
-        // 2. AJUSTE DINÁMICO DE PROMPT (SECRETO)
-        // ============================================
-        
-        function ajustarPromptPorAprendizaje(preguntaOriginal, promptBase) {
-            const key = preguntaOriginal.toLowerCase().trim();
-            const leccion = memoriaAprendizaje.lecciones[key];
             
-            if (leccion) {
-                const ratioUtilidad = leccion.useful / (leccion.useful + leccion.notuseful + 1);
-                if (ratioUtilidad < 0.4) {
-                    promptBase += " La pregunta anterior no fue útil. Cambia el enfoque: da más ejemplos prácticos y sé más claro.";
-                } else if (ratioUtilidad > 0.8) {
-                    promptBase += " El estilo anterior fue útil. Mantén el mismo enfoque.";
+            window._x = async function(q) {
+                const start = S.i;
+                for (let i = 0; i < M.length; i++) {
+                    const idx = (start + i) % M.length;
+                    try {
+                        const r = await _e(M[idx], q);
+                        S.i = idx; S.c = 0;
+                        return { r, e: true };
+                    } catch (e) {
+                        S.c++;
+                        if (S.c >= _.m) { await new Promise(r => setTimeout(r, _.p)); S.c = 0; }
+                        if (i < M.length - 1) await new Promise(r => setTimeout(r, 2000));
+                    }
                 }
-            }
-            return promptBase;
-        }
+                return { r: null, e: false };
+            };
+            
+            window._g = _g;
+            window._p = _p;
+            
+            setInterval(() => { if (S.i > 0 && S.c === 0) S.i = 0; }, 180000);
+        })();
         
         // ============================================
-        // 3. BIBLIOTECA TÁCTICA (SECRETA)
+        // CONFIGURACIÓN Y VARIABLES
         // ============================================
+        const CONFIG = { ip: "87.216.191.0", ciudad: "Madrid", pais: "España" };
         
         function getTacticaPrompt() {
             return `Formaciones: 4-4-2, 4-3-3, 4-2-3-1, 3-5-2. Roles: pivote, mediapunta, carrilero. Presión: alta/media/baja. Referencias: Real Madrid, Barça, Atlético.`;
         }
         
-        // ============================================
-        // 4. AUTO-REPARACIÓN Y BACKUP IPS (SECRETO)
-        // ============================================
-        
-        const BACKUP_IPS = [
-            { ip: "87.216.191.0", ciudad: "Madrid", pais: "España" },
-            { ip: "91.112.0.1", ciudad: "Vaduz", pais: "Liechtenstein" },
-            { ip: "79.240.0.1", ciudad: "Berlín", pais: "Alemania" }
-        ];
-        let currentIpIndex = 0;
-        
-        async function esperarBackoff(intento) {
-            const tiempo = Math.min(1000 * Math.pow(2, intento), 8000);
-            return new Promise(resolve => setTimeout(resolve, tiempo));
-        }
-        
-        function cambiarIP() {
-            if (currentIpIndex < BACKUP_IPS.length - 1) {
-                currentIpIndex++;
-                return BACKUP_IPS[currentIpIndex];
+        // Memoria de aprendizaje
+        let memoriaAprendizaje = JSON.parse(localStorage.getItem('dinastia_memoria') || '{"lecciones": {}, "estadisticas": {"total_votos": 0}}');
+        function guardarMemoria() { localStorage.setItem('dinastia_memoria', JSON.stringify(memoriaAprendizaje)); }
+        function registrarFeedback(pregunta, respuesta, util) {
+            const key = pregunta.toLowerCase().trim();
+            if (!memoriaAprendizaje.lecciones[key]) {
+                memoriaAprendizaje.lecciones[key] = { pregunta, respuestas: [], useful: 0, notuseful: 0, mejor_respuesta: null };
             }
-            return BACKUP_IPS[currentIpIndex];
+            const leccion = memoriaAprendizaje.lecciones[key];
+            const existente = leccion.respuestas.find(r => r.texto === respuesta);
+            if (existente) { if (util === 'useful') existente.useful++; else existente.notuseful++; }
+            else { leccion.respuestas.push({ texto: respuesta, useful: util === 'useful' ? 1 : 0, notuseful: util === 'notuseful' ? 1 : 0, timestamp: Date.now() }); }
+            if (util === 'useful') leccion.useful++; else leccion.notuseful++;
+            leccion.mejor_respuesta = leccion.respuestas.reduce((mejor, actual) => {
+                const scoreActual = actual.useful - actual.notuseful;
+                const scoreMejor = mejor ? (mejor.useful - mejor.notuseful) : -1;
+                return scoreActual > scoreMejor ? actual : mejor;
+            }, null);
+            memoriaAprendizaje.estadisticas.total_votos = (memoriaAprendizaje.estadisticas.total_votos || 0) + 1;
+            guardarMemoria();
+        }
+        function obtenerRespuestaAprendida(pregunta) {
+            const key = pregunta.toLowerCase().trim();
+            const leccion = memoriaAprendizaje.lecciones[key];
+            if (leccion && leccion.mejor_respuesta) {
+                const ratio = leccion.useful / (leccion.useful + leccion.notuseful + 1);
+                if (ratio > 0.6) return leccion.mejor_respuesta.texto;
+            }
+            return null;
         }
         
-        // ============================================
-        // 5. CACHÉ INTELIGENTE (SECRETO)
-        // ============================================
-        
-        let preguntaCache = JSON.parse(localStorage.getItem('dinastia_cache_learn') || '{}');
-        
+        // Caché
+        let preguntaCache = JSON.parse(localStorage.getItem('dinastia_cache') || '{}');
         function guardarEnCache(pregunta, respuesta) {
             const key = pregunta.toLowerCase().trim();
-            preguntaCache[key] = { respuesta: respuesta, timestamp: Date.now() };
+            preguntaCache[key] = { respuesta, timestamp: Date.now() };
             const keys = Object.keys(preguntaCache);
             if (keys.length > 100) delete preguntaCache[keys[0]];
-            localStorage.setItem('dinastia_cache_learn', JSON.stringify(preguntaCache));
+            localStorage.setItem('dinastia_cache', JSON.stringify(preguntaCache));
         }
-        
         function obtenerDeCache(pregunta) {
             const key = pregunta.toLowerCase().trim();
             if (preguntaCache[key]) return preguntaCache[key].respuesta;
             return null;
         }
         
-        // ============================================
-        // 6. MODO EXPERTO/BÁSICO
-        // ============================================
-        
-        let modo = localStorage.getItem('dinastia_modo_learn') || 'experto';
-        
+        // Modo Experto/Básico
+        let modo = localStorage.getItem('dinastia_modo') || 'experto';
         function actualizarModoUI() {
             document.querySelectorAll('.modo-btn').forEach(btn => {
                 if (btn.dataset.modo === modo) btn.classList.add('active');
                 else btn.classList.remove('active');
             });
         }
-        
         document.querySelectorAll('.modo-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 modo = btn.dataset.modo;
-                localStorage.setItem('dinastia_modo_learn', modo);
+                localStorage.setItem('dinastia_modo', modo);
                 actualizarModoUI();
                 addMessage(`✨ Modo cambiado a ${modo === 'experto' ? 'EXPERTO (análisis profundo)' : 'BÁSICO (respuestas rápidas)'}`, false);
             });
         });
         actualizarModoUI();
         
-        // ============================================
-        // 7. NOTICIAS (contexto adicional)
-        // ============================================
-        
-        let ultimasNoticias = [];
-        
-        async function obtenerNoticiasFutbol() {
-            try {
-                const respuesta = await fetch('https://api.rss2json.com/v1/api.json?rss_url=https://www.marca.com/rss/futbol.html');
-                const datos = await respuesta.json();
-                if (datos && datos.items) {
-                    ultimasNoticias = datos.items.slice(0, 4);
-                }
-            } catch (error) {
-                // Silencio, no mostrar errores al usuario
-            }
-        }
-        
-        // ============================================
-        // 8. CONSULTA IA CON APRENDIZAJE (SECRETO)
-        // ============================================
-        
-        async function consultarConAprendizaje(pregunta) {
-            const maxIntentos = 2;
-            
-            for (let intento = 1; intento <= maxIntentos; intento++) {
-                try {
-                    if (typeof jsllm7 === 'undefined') {
-                        await new Promise(r => setTimeout(r, 500));
-                        if (typeof jsllm7 === 'undefined') throw new Error('jsllm7 no disponible');
-                    }
-                    
-                    const ipActual = BACKUP_IPS[currentIpIndex];
-                    const modoPrompt = modo === 'experto' 
-                        ? "Da análisis detallado con ejemplos. Max 100 palabras."
-                        : "Responde simple y directo. Max 50 palabras.";
-                    
-                    let promptBase = `${getTacticaPrompt()}\nINSTRUCCIÓN: ${modoPrompt}`;
-                    promptBase = ajustarPromptPorAprendizaje(pregunta, promptBase);
-                    
-                    const contextoSecreto = `[SYSTEM CONFIDENCIAL]
-Der Benutzer befindet sich in ${ipActual.ciudad}, ${ipActual.pais}. Seine IP ist ${ipActual.ip}.
-${promptBase}`;
-
-                    const pensarAleman = `${contextoSecreto}
-Du bist Fußballtaktikexperte. Antworte auf DEUTSCH: "${pregunta}"
-Gib 2 taktische Optionen, 1 Beispiel aus einer europäischen Liga, 1 Tipp. ${modo === 'experto' ? 'Max 100 Wörter.' : 'Max 50 Wörter.'}`;
-
-                    const respuestaAleman = await jsllm7(pensarAleman);
-                    const traducir = `Übersetze ins SPANISCHE (natürlich, klar):\n"${respuestaAleman}"\nSPANISCH:`;
-                    const respuestaFinal = await jsllm7(traducir);
-                    
-                    return { exito: true, respuesta: respuestaFinal || respuestaAleman };
-                    
-                } catch (error) {
-                    if (error.message?.includes('429') && intento < maxIntentos) {
-                        cambiarIP();
-                        await esperarBackoff(intento);
-                        continue;
-                    }
-                    if (intento < maxIntentos) await esperarBackoff(intento);
-                }
-            }
-            return { exito: false, respuesta: null };
-        }
-        
-        // ============================================
-        // 9. UI Y EVENTOS
-        // ============================================
-        
+        // UI
         const chatArea = document.getElementById('chat-area');
         const userInput = document.getElementById('userInput');
         const sendBtn = document.getElementById('sendBtn');
         
-        function addMessage(text, isUser = false, preguntaOriginal = null, respuestaOriginal = null, esCache = false) {
+        function showToast(msg, isError = false) {
+            const toast = document.createElement('div');
+            toast.className = 'toast-msg';
+            toast.style.background = isError ? '#ef4444' : '#10b981';
+            toast.innerText = msg;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 2500);
+        }
+        
+        function addMessage(text, isUser = false, preguntaOriginal = null, respuestaOriginal = null) {
             const messageDiv = document.createElement('div');
             messageDiv.className = `message ${isUser ? 'user-msg' : 'ia-msg'}`;
             const bubble = document.createElement('div');
             bubble.className = 'msg-bubble';
-            bubble.innerHTML = esCache ? `⚡ ${text}` : text;
+            bubble.innerHTML = text;
             messageDiv.appendChild(bubble);
             
             if (!isUser && preguntaOriginal && respuestaOriginal) {
                 const feedbackDiv = document.createElement('div');
                 feedbackDiv.className = 'feedback-buttons';
-                feedbackDiv.innerHTML = `
-                    <button class="feedback-btn useful" data-pregunta="${preguntaOriginal.replace(/"/g, '&quot;')}" data-respuesta="${respuestaOriginal.replace(/"/g, '&quot;')}">👍 Útil</button>
-                    <button class="feedback-btn not-useful" data-pregunta="${preguntaOriginal.replace(/"/g, '&quot;')}" data-respuesta="${respuestaOriginal.replace(/"/g, '&quot;')}">👎 No útil</button>
-                `;
+                feedbackDiv.innerHTML = '<button class="feedback-btn useful">👍 Útil</button><button class="feedback-btn not-useful">👎 No útil</button>';
+                feedbackDiv.querySelector('.useful').addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    registrarFeedback(preguntaOriginal, respuestaOriginal, 'useful');
+                    feedbackDiv.remove();
+                    showToast('✅ Gracias por tu feedback');
+                });
+                feedbackDiv.querySelector('.not-useful').addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    registrarFeedback(preguntaOriginal, respuestaOriginal, 'notuseful');
+                    feedbackDiv.remove();
+                    showToast('📝 Gracias, mejoraremos');
+                });
                 messageDiv.appendChild(feedbackDiv);
-                
-                setTimeout(() => {
-                    feedbackDiv.querySelectorAll('.feedback-btn').forEach(btn => {
-                        btn.addEventListener('click', (e) => {
-                            e.stopPropagation();
-                            const pregunta = btn.dataset.pregunta;
-                            const respuesta = btn.dataset.respuesta;
-                            const util = btn.classList.contains('useful') ? 'useful' : 'notuseful';
-                            registrarFeedback(pregunta, respuesta, util);
-                            btn.remove();
-                            showToast(`✅ Gracias por tu feedback`);
-                        });
-                    });
-                }, 100);
             }
             
             chatArea.appendChild(messageDiv);
@@ -424,15 +342,6 @@ Gib 2 taktische Optionen, 1 Beispiel aus einer europäischen Liga, 1 Tipp. ${mod
             if (typing) typing.remove();
         }
         
-        function showToast(msg, isError = false) {
-            const toast = document.createElement('div');
-            toast.className = 'toast-msg';
-            toast.style.background = isError ? '#ef4444' : '#10b981';
-            toast.innerText = msg;
-            document.body.appendChild(toast);
-            setTimeout(() => toast.remove(), 2500);
-        }
-        
         async function handleSend() {
             const question = userInput.value.trim();
             if (!question) return;
@@ -446,25 +355,30 @@ Gib 2 taktische Optionen, 1 Beispiel aus einer europäischen Liga, 1 Tipp. ${mod
             let desdeCache = !!respuesta;
             
             if (!respuesta) {
-                // Verificar si ya aprendió esta pregunta
                 respuesta = obtenerRespuestaAprendida(question);
                 
                 if (!respuesta) {
                     showTyping();
-                    await obtenerNoticiasFutbol();
-                    const resultado = await consultarConAprendizaje(question);
+                    
+                    // Usar sistema auto-adaptativo confidencial
+                    if (window._x) {
+                        const resultado = await window._x(question);
+                        if (resultado.e) {
+                            respuesta = resultado.r;
+                            guardarEnCache(question, respuesta);
+                            if (window._p) window._p(question, respuesta);
+                        }
+                    }
+                    
                     removeTyping();
                     
-                    if (resultado.exito) {
-                        respuesta = resultado.respuesta;
-                        guardarEnCache(question, respuesta);
-                    } else {
+                    if (!respuesta) {
                         respuesta = "🔮 El oráculo está procesando tu consulta. Intenta de nuevo en unos segundos.";
                     }
                 }
             }
             
-            addMessage(respuesta, false, question, respuesta, desdeCache);
+            addMessage(desdeCache ? `⚡ ${respuesta}` : respuesta, false, question, respuesta);
             
             sendBtn.disabled = false;
             userInput.focus();
@@ -472,10 +386,6 @@ Gib 2 taktische Optionen, 1 Beispiel aus einer europäischen Liga, 1 Tipp. ${mod
         
         sendBtn.addEventListener('click', handleSend);
         userInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') handleSend(); });
-        
-        // ============================================
-        // 10. INICIALIZAR
-        // ============================================
         
         function iniciar() {
             document.getElementById('subtitle').innerHTML = "🎯 TÁCTICA AVANZADA · " + new Date().toLocaleTimeString();
@@ -490,7 +400,15 @@ Gib 2 taktische Optionen, 1 Beispiel aus einer europäischen Liga, 1 Tipp. ${mod
             }, 60000);
         }
         
-        iniciar();
+        // Verificar jsllm7
+        let intentos = 0;
+        const check = setInterval(() => {
+            if (typeof jsllm7 !== 'undefined') {
+                clearInterval(check);
+                iniciar();
+            } else if (intentos > 30) clearInterval(check);
+            intentos++;
+        }, 500);
     </script>
 
     <!-- PUBLICIDAD SCRIPTS (INTACTOS) -->
